@@ -1,0 +1,1622 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="https://github.com/sbu-ce.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Go Programming</title>
+
+    <link rel="stylesheet" href="/IE-lecture/slides/css/reveal.css">
+    <link rel="stylesheet" href="/IE-lecture/slides/css/theme/league.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="/IE-lecture/slides/lib/css/agate.css">
+
+    <!-- Parham theme! -->
+    <link rel="stylesheet" href="/IE-lecture/slides/css/theme.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? '/IE-lecture/slides/css/print/pdf.css' : '/IE-lecture/slides/css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        
+        <section>
+          <h1 style="color: #ffea00;">Go Programming</h1>
+          <h5>Internet Engineering</h5>
+          <span class="cyan-select">Spring 2021</span><br>
+          <a style="color: #ff9900;" href="https://1995parham.me">@1995parham</a>
+        </section>
+        
+        <section>
+  <section>
+    <h2>Gopher</h2>
+    <div style="display: flex">
+      <img
+        src="./img/real-gopher.jpg"
+        alt="real-gopher"
+        style="height: 300px"
+      />
+      <img src="./img/gophers.png" alt="gophers" style="height: 300px" />
+    </div>
+  </section>
+  <section>
+    <img src="./img/go-vs-java.jpg" alt="go-vs-java" style="height: 30vh" />
+  </section>
+</section>
+<section>
+  <div class="toc"></div>
+</section>
+<section>
+  <div class="toc" data-selected="0"></div>
+  <img src="img/history.png" alt="gopher-riding-rex" style="height: 10%" />
+</section>
+<section>
+  <p><em>Go is</em></p>
+  <ul>
+    <li>Modern</li>
+    <li>Generic Purpose</li>
+    <li>Open Source</li>
+  </ul>
+  <p><em>Programming Language</em></p>
+</section>
+<section>
+  <ul>
+    <li>Officially announced at November 10, 2009</li>
+    <li>It began as an internal <em class="hl-orange">Google</em> project</li>
+    <li>
+      The designers were primarily motivated by their shared
+      <strong class="hl-red">dislike of C++</strong>
+    </li>
+    <li>
+      Its spiritual fathers are
+      <ul>
+        <li>Robert Griesemer</li>
+        <li>Ken Thomson</li>
+        <li>Rob Pike</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+<section>
+  <ul>
+    <li>version 1.0 was released in March 2012.</li>
+    <li>
+      Go is widely used in production at Google and in many other organizations
+      and open-source projects.
+    </li>
+    <li>
+      Lack of support for <em class="hl-orange">generic programming</em> and
+      <em class="hl-green">the verbosity of error handling</em> in Go 1.x had
+      drawn considerable criticism.
+    </li>
+  </ul>
+</section>
+<section>
+  <div class="toc" data-selected="1"></div>
+  <img src="img/advantages.png" alt="gopher-rocks" style="height: 10%" />
+</section>
+<section>
+  <section>
+    <ul>
+      <li>
+        Go is syntactically similar to C, but with
+        <em class="hl-orange">memory safety</em>,
+        <em class="hl-green">garbage collection</em>,
+        <em class="hl-yellow">structural typing</em>, and
+        <em class="hl-violet">CSP-style concurrency</em>.
+      </li>
+      <li>There are two major implementations:</li>
+      <ol>
+        <li>
+          Google's self-hosting compiler toolchain targeting multiple operating
+          systems, mobile devices, and WebAssembly.
+        </li>
+        <li>gccgo, a GCC frontend.</li>
+      </ol>
+    </ul>
+  </section>
+  <section>
+    <h3><em class="hl-orange">memory safety</em></h3>
+    <pre><code class="lang-c">
+int a[10];
+a[11] = 10;
+    </code></pre>
+    <h3><em class="hl-green">garbage collection</em></h3>
+    <pre><code class="lang-c">
+void allocate_forever(void) {
+  int *a = malloc(10 * sizeof(int));
+  a[0] = 10;
+}
+    </code></pre>
+    <h3><em class="hl-yellow">structural typing</em></h3>
+    <pre><code class="lang-c">
+struct student {
+  int  id;
+  char surname[255];
+  char forename[255];
+};
+    </code></pre>
+  </section>
+</section>
+<section>
+  <section>
+    <ul>
+      <li>Go code is easy to read and easy to understand</li>
+      <li>Go does not have a <em class="hl-cyan">preprocessor</em></li>
+      <li>
+        Go uses <strong class="hl-orange">static linking</strong> by default,
+        which means that the binary files produced can be easily transferred to
+        other machines with the same OS.
+      </li>
+    </ul>
+  </section>
+  <section>
+    <h3><em class="hl-cyan">preprocessor</em></h3>
+    <pre><code class="lang-c">
+#define students_foreach_loop(stds, element) \
+    struct students_el *element ## _el = stds-&gt;head; \
+    const struct student *element = element ## _el-&gt;student; \
+    for (; element ## _el != NULL; element ## _el = element ## _el-&gt;next, element = element ## _el ? element ## _el-&gt;student : NULL)
+
+  students_foreach_loop(stds, el) {
+    fprintf(fp, "Name: %s\n", el-&gt;name);
+    fprintf(fp, "ID: %s\n", el-&gt;id);
+    fprintf(fp, "\n");
+  }
+    </code></pre>
+  </section>
+  <section>
+    <img src="./img/dyn-static.gif" alt="dyn-static" />
+  </section>
+</section>
+<section>
+  <section>
+    <ul>
+      <li>
+        A syntax and environment adopting patterns more common in dynamic
+        languages:
+      </li>
+      <ul>
+        <li>
+          Optional concise variable declaration and initialization through
+          <em class="hl-violet">type inference</em> (<code class="hl-orange"
+            >x := 0</code
+          >
+          instead of <code class="hl-green">int x = 0;</code>).
+        </li>
+        <li>Fast compilation.</li>
+        <li>
+          Remote package management (<code class="hl-orange">go get</code>) and
+          online package documentation.
+        </li>
+      </ul>
+    </ul>
+  </section>
+  <section>
+    <ul>
+      <li>Distinctive approaches to particular problems:</li>
+      <ul>
+        <li>
+          Built-in concurrency primitives:
+          <strong class="hl-orange">light-weight processes (goroutines)</strong
+          >, <strong class="hl-green">channels</strong>, and the
+          <code class="hl-yellow">select</code>
+          statement.
+        </li>
+        <li>
+          An <em class="hl-violet">interface system</em> in place of virtual
+          inheritance, and <em class="hl-red">type embedding</em> instead of
+          non-virtual inheritance.
+        </li>
+        <li>
+          A toolchain that, by default, produces statically linked native
+          binaries without external dependencies.
+        </li>
+      </ul>
+      <li>
+        A desire to keep the language specification simple enough to hold in a
+        programmer's head, in part by omitting features that are common in
+        similar languages.
+      </li>
+    </ul>
+  </section>
+</section>
+<section>
+  <div class="toc" data-selected="2"></div>
+  <img src="img/say-hello.png" alt="teaching-gopher" style="height: 10%" />
+</section>
+<section>
+  <pre><code class="lang-go">
+package main
+
+import "fmt"
+
+func main() {
+  fmt.Printf("Hello, دنیا\n")
+}
+  </code></pre>
+</section>
+<section>
+  <ul>
+    <li>
+      Go code is organized into packages, which are similar to libraries or
+      modules in other languages.
+    </li>
+    <li>
+      The <code class="hl-green">import</code> declaration must follow the
+      <code class="hl-orange">package</code> declaration.
+    </li>
+    <li>
+      You <strong class="hl-yellow">must</strong> import exactly the packages
+      you need.
+    </li>
+    <li>
+      A function declaration consists of the keyword
+      <code class="hl-cyan">func</code>, the name of the function, a parameter
+      list (empty for main), a result list (also empty here), and the body of
+      the function - the statements that define what it does - enclosed in
+      braces.
+    </li>
+  </ul>
+</section>
+<section class="hands-on">
+  <section>
+    <h2>
+      <a
+        href="https://raw.githubusercontent.com/SBU-CE/ie-with-go/main/00-hello-world/main.go"
+        >&lt;Code Time.go&gt;</a
+      >
+    </h2>
+    <ul>
+      <li>
+        Write <strong class="hl-material">Hello World</strong> in Go but Before
+        that we must install the Go! and our favorite text editor
+      </li>
+    </ul>
+  </section>
+  <section>
+    <h3>Tip!</h3>
+    <ul>
+      <li>
+        Use <code class="hl-cyan">Code Time.go</code> links to see the source
+        code
+      </li>
+      <li>
+        Use <code class="hl-orange">curl</code> to download the source code
+      </li>
+    </ul>
+    <pre><code class="lang-sh">
+curl https://raw.githubusercontent.com/SBU-CE/ie-with-go/main/00-hello-world/main.go &gt; hello-world.go
+    </code></pre>
+  </section>
+  <section>
+    <ul>
+      <li><a href="https://learn.go.dev/">https://learn.go.dev/</a></li>
+      <li>with package managers</li>
+      <ul>
+        <li><code>pacman -Syu go</code></li>
+        <li><code>apt install golang-go</code></li>
+        <li><code>brew install go</code></li>
+        <li><code>scoop install go</code></li>
+      </ul>
+    </ul>
+  </section>
+</section>
+<section>
+  <div class="toc" data-selected="3"></div>
+</section>
+<section>
+  <h2>Constants</h2>
+  <p>Maintained precisely:</p>
+  <pre><code class="lang-go">
+const e = 2.71828182845904523536028747135266249775724709369995957496696763
+const third = 1/3
+  </code></pre>
+  <p>Typed or without type:</p>
+  <pre><code class="lang-go">
+const M64 int64 = 1&lt;&lt;20
+const M = 1&lt;&lt;20
+  </code></pre>
+  <p>Evaluated at compile-time:</p>
+  <pre><code class="lang-go">
+const big = 1&lt;&lt;100 / 1e30  // valid constant expression
+  </code></pre>
+</section>
+<section>
+  <section>
+    <h2>Variables</h2>
+    <p>
+      <code class="hl-orange">var</code>
+      <code class="hl-yellow"><em>name</em></code>
+      <code class="hl-green"><em>type</em></code> =
+      <code class="hl-cyan"><em>expression</em></code>
+    </p>
+
+    <p>
+      <code class="hl-yellow"><em>name</em></code>
+      :=
+      <code class="hl-cyan"><em>expression</em></code>
+      <strong style="color: gray">// inside functions only</strong>
+    </p>
+  </section>
+  <section>
+    <p>Statically typed:</p>
+    <pre><code class="lang-go">
+var x int
+var s, t string
+    </code></pre>
+    <p>Implicitly or explicitly initialized:</p>
+    <pre><code class="lang-go">
+var x int                       // x = 0
+var s, t string = "foo", "bar"  // multiple assignment
+
+var x = 42                      // int
+var s, b = "foo", true          // string, bool
+    </code></pre>
+  </section>
+  <section>
+    <p>Short variable declaration:</p>
+    <pre><code class="lang-go">
+x := 42
+s, b := "foo", true
+    </code></pre>
+  </section>
+</section>
+<section>
+  <section>
+    <h2>Pointers ⚰️</h2>
+    <ul>
+      <li>A pointer value is the address of a variable.</li>
+      <li>Not every value has an address, but every variable does.</li>
+      <li>
+        With a pointer, we can read or update the value of a variable indirectly
+      </li>
+    </ul>
+  </section>
+  <section>
+    <pre><code class="lang-go">
+x := 1
+p := &amp;x     // p, of type *int, points to x
+fmt.Println(*p) // 1
+*p = 2          // equivalent to x = 2
+fmt.Println(x)  // 2
+    </code></pre>
+  </section>
+</section>
+<section>
+  <section>
+    <h2>Predeclared Name</h2>
+    <h3>which can be reused</h3>
+    <pre><code class="lang-go">
+true false iota nil
+    </code></pre>
+    <pre><code class="lang-go">
+int int8 int16 int32 int64
+uint uint8 uint16 uint32 uint64 uintptr
+float32 float64 complex128 complex64
+bool byte rune string error
+    </code></pre>
+    <pre><code class="lang-go">
+make len cap new append copy close delete
+complex real imag
+panic recover
+    </code></pre>
+  </section>
+  <section>
+    <h3>which can't be reused</h3>
+    <pre><code class="lang-go">
+break default func interface select
+case defer go map struct
+chan else goto package switch
+const fallthrough if range type
+continue for import return var
+    </code></pre>
+  </section>
+</section>
+<section class="hands-on">
+  <h2>
+    <a
+      href="https://raw.githubusercontent.com/SBU-CE/ie-with-go/main/01-constants-and-variables/main.go"
+      >&lt;Code Time.go&gt;</a
+    >
+  </h2>
+  <ul>
+    <li>Let define variables and constants to see how their work</li>
+  </ul>
+</section>
+<section>
+  <h2>Calculation</h2>
+  <pre><code class="lang-go">
+x := 42
+y := x + 10
+var c = (f - 32) * 5 / 9
+
+var x uint8 = 1 &lt;&lt; 1 | 1 &lt;&lt; 5
+var y uint8 = 1 &lt;&lt; 1 | 1 &lt;&lt; 2
+
+fmt.Printf("%08b\n", x) // "00100010"
+fmt.Printf("%08b\n", y) // "00000110"
+
+fmt.Printf("%08b\n", x&amp;y) // "00000010"
+fmt.Printf("%08b\n", x|y)     // "00100110"
+fmt.Printf("%08b\n", x^y)     // "00100100"
+  </code></pre>
+</section>
+<section class="hands-on">
+  <h2>
+    <a
+      href="https://raw.githubusercontent.com/SBU-CE/ie-with-go/main/02-calculation/main.go"
+      >&lt;Code Time.go&gt;</a
+    >
+  </h2>
+  <ul>
+    <li>Do some math</li>
+  </ul>
+</section>
+<section>
+  <section>
+    <h2>The <em>new</em> Function</h2>
+    <ul>
+      <li>
+        Another way to create a variable is to use the built-in function
+        <code>new</code>
+      </li>
+      <li>
+        The expression <code>new(T)</code> create an unnamed variable of type T,
+        initializes it to the zero value of T, and return its address, which is
+        a value of type *T
+      </li>
+      <li>The new function is relatively rarely used.</li>
+    </ul>
+  </section>
+  <section>
+    <pre><code class="lang-go">
+func newInt() *int {
+  return new(int)
+}
+
+func newInt() *int {
+  var dummy int
+  return &amp;dummy
+}
+    </code></pre>
+  </section>
+</section>
+<section>
+  <h2>Assignment</h2>
+  <ul>
+    <li>Tuple Assignment</li>
+    <ul>
+      <li>Allows several variables to be assigned at once.</li>
+      <li>
+        All of the right-hand side expressions are evaluated before any of the
+        variable are updated.
+      </li>
+    </ul>
+  </ul>
+  <pre><code class="lang-go">
+// tuple assignment
+
+a, b = b, a // swap
+
+f, err = os.Open(filename) // multiple assignment
+
+func gcd(x, y int) int {
+  for y != 0 {
+    x, y = y, x % y
+  }
+
+  return x
+}
+  </code></pre>
+</section>
+<section>
+  <h2>Statements</h2>
+  <ul>
+    <li>Curly braces (C style)</li>
+    <li>Multiple assignments and some other new constructs</li>
+    <li>
+      Statements are <span class="material-italic">not</span> Expressions.
+    </li>
+    <li>
+      Many cleanups 🧹:
+      <ul>
+        <li>mandatory braces</li>
+        <li>no parentheses for conditionals</li>
+        <li>implicit break in switches</li>
+        <li>no semicolons</li>
+        <li>...</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+<section>
+  <h2>Statements</h2>
+  <pre><code class="lang-go">
+
+if x &lt; y {
+  return x
+} else {
+  return y
+}
+
+switch day {
+case Mon:
+  ...
+  // break is implicit
+case Tue, Wed:
+  ...
+}
+  </code></pre>
+  <ul>
+    <li>Not shown: break, goto, continue, fallthrough</li>
+  </ul>
+</section>
+<section>
+  <section>
+    <h2>Statements</h2>
+    <ul>
+      <li>Unified <code class="hl-orange">for</code> syntax</li>
+    </ul>
+    <pre><code class="lang-go">
+// a traditional infinite loop
+for {
+  // ...
+}
+    </code></pre>
+    <pre><code class="lang-go">
+for initialization; condition; post {
+  // zero or more statements
+}
+    </code></pre>
+    <pre><code class="lang-go">
+// a traditional "while" loop
+for condition {
+  // ...
+}
+    </code></pre>
+  </section>
+  <section>
+    <ul>
+      <li>
+        <code class="hl-orange">range</code> over arrays, slices, and maps
+      </li>
+      <li>
+        In each iteration of the loop, <code>range</code> produces a pair of
+        values: the index and the value of the element at that index.
+      </li>
+      <li>
+        If you don't want the index variable you can use the blank identifier,
+        whose name is _ (that is, an underscore).
+      </li>
+    </ul>
+    <pre><code class="lang-go">
+for i, num := range numbers { ... }
+for city, pop := range population { ... }
+    </code></pre>
+  </section>
+</section>
+<section>
+  <h2>Functions</h2>
+  <pre><code class="lang-go">
+package main
+
+import "fmt"
+
+func Fibonacci(n int) int {
+  if n == 0 || n == 1 {
+    return 1
+  } else {
+    return Fibonacci(n-1) + Fibonacci(n-2)
+  }
+}
+
+func main() {
+  fmt.Printf("%d\n", Fibonacci(10))
+}
+  </code></pre>
+</section>
+<section class="hands-on">
+  <h2>
+    <a
+      href="https://raw.githubusercontent.com/SBU-CE/ie-with-go/main/03-conditions/main.go"
+      >&lt;Code Time.go&gt;</a
+    >
+  </h2>
+  <ul>
+    <li>Conditions with tase of Fibonacci 😋</li>
+  </ul>
+</section>
+<section class="hands-on">
+  <h2>
+    <a
+      href="https://raw.githubusercontent.com/SBU-CE/ie-with-go/main/04-loops/main.go"
+      >&lt;Code Time.go&gt;</a
+    >
+  </h2>
+  <ul>
+    <li>Many loops</li>
+  </ul>
+</section>
+<section>
+  <section>
+    <h2>Interaction</h2>
+    <pre><code class="lang-go">
+package "main"
+
+import "fmt"
+
+func main() {
+  var n int
+  fmt.Scanf("%d", &amp;n)
+  fmt.Printf("%d\n", n)
+}
+    </code></pre>
+  </section>
+  <section>
+    <table>
+      <tr>
+        <td>%d</td>
+        <td>decimal integer</td>
+      </tr>
+      <tr>
+        <td>%x, %o, %b</td>
+        <td>integer in hexadecimal, octal, binary</td>
+      </tr>
+      <tr>
+        <td>%f, %g, %e</td>
+        <td>floating-point number: 3.141593 3.141592653589793 3.141593e+00</td>
+      </tr>
+      <tr>
+        <td>%t</td>
+        <td>boolean: <code>true</code> or <code>false</code></td>
+      </tr>
+      <tr>
+        <td>%c</td>
+        <td>rune (Unicode code point)</td>
+      </tr>
+      <tr>
+        <td>%s</td>
+        <td>string</td>
+      </tr>
+      <tr>
+        <td>%q</td>
+        <td>quoted string "abc" or rune 'c'</td>
+      </tr>
+      <tr>
+        <td>%v</td>
+        <td>any value in natrual format</td>
+      </tr>
+      <tr>
+        <td>%T</td>
+        <td>type of any value</td>
+      </tr>
+      <tr>
+        <td>%%</td>
+        <td>literal percent sign (no operand)</td>
+      </tr>
+    </table>
+  </section>
+</section>
+<section>
+  <section>
+    <h2>Strings</h2>
+    <ul>
+      <li>A string is an immutable sequence of bytes</li>
+      <li>
+        Text strings are conventionally interpreted as UTF-8 encoded sequence of
+        Unicode code points (runes)
+      </li>
+      <li>
+        The built-in <code>len</code> function the number of bytes (not runes)
+        in a string, and the index operation <code>s[i]</code> retrieves the
+        i-th byte of string s, where <em>0 &lt;= i &lt; len(s)</em>
+      </li>
+    </ul>
+  </section>
+  <section>
+    <pre><code class="lang-go">
+s := "hello, world"
+fmt.Println(len(s)) // 12
+fmt.Println(s[0], s[7]) // 'h' and 'w'
+    </code></pre>
+  </section>
+  <section>
+    <ul>
+      <li>
+        Constructions that try to modify a string's data in place are not
+        allowed:
+      </li>
+      <pre><code class="lang-go">
+s[0] = 'L' // compile error: cannot assign to s[0]
+      </code></pre>
+    </ul>
+  </section>
+  <section>
+    <ul>
+      <li>
+        Four standard packages are particularly important for manipulating
+        strings:
+      </li>
+      <ul>
+        <li><code>bytes</code></li>
+        <li><code>strings</code></li>
+        <li><code>strconv</code></li>
+        <li><code>unicode</code></li>
+      </ul>
+    </ul>
+    <pre><code class="lang-bash">
+go doc bytes
+    </code></pre>
+  </section>
+  <section>
+    <h2>Unicode</h2>
+    <ul>
+      <li><a href="https://unicode.org">unicode.org</a></li>
+      <li>
+        Which collects all of the characters in all of the world's writing
+        systems, plus accents and other diacritical marks, control codes like
+        tab and carriage return, etc.
+      </li>
+    </ul>
+  </section>
+  <section>
+    <h2>Conversions between Strings and Numbers</h2>
+    <ul>
+      <li>
+        To convert an integer to a string, one option is to use
+        <code>fmt.Sprintf</code>; another is to use the function
+        <code>strconv.Itoa</code>.
+      </li>
+      <li>
+        <code>strconv.FormatInt()</code> and <code>strconv.FormatUint</code> can
+        be used to format numbers in a different base
+      </li>
+      <li>
+        The <code>fmt.Printf</code> verbs <code>%b</code>, <code>%d</code>,
+        <code>%o</code>, and <code>%x</code> are often more convenient thatn
+        <code>Format</code> functions
+      </li>
+    </ul>
+
+    <pre><code class="lang-go">
+x := 123
+y := fmt.Sprintf("%d", x)
+fmt.Println(y, strconv.Itoa(x)) // "123 123"
+    </code></pre>
+  </section>
+  <section>
+    <ul>
+      <li>
+        To parse a string representing an integer, use the
+        <code>strconv.Atoi</code> or <code>strconv.ParseInt</code>, or
+        <code>strconv.ParseUint</code> for unsigned integers
+      </li>
+      <li>
+        The third argument of <code>ParseInt</code> gives the size of the
+        integer type that the result must fit into
+      </li>
+      <li>
+        In any case, the type of the result is always <code>int64</code>, which
+        you can then convert to a smaller type
+      </li>
+      <li>
+        <code>fmt.Sscanf</code> is useful for parsing input that consists of
+        orderly mixtures of strings and number all on a single line
+      </li>
+    </ul>
+    <pre><code class="lang-go">
+x, err := strconv.Atoi("123")              // x is an int
+y, err := strconv.ParseInt("123", 10, 64)  // base 10, up to 64 bits
+    </code></pre>
+  </section>
+</section>
+<section class="hands-on">
+  <h2>
+    <a
+      href="https://raw.githubusercontent.com/SBU-CE/ie-with-go/main/05-strings/main.go"
+      >&lt;Code Time.go&gt;</a
+    >
+  </h2>
+  <ul></ul>
+</section>
+<section>
+  <section>
+    <h2>Arrays</h2>
+    <ul>
+      <li>
+        An array is a fixed-length sequence of zero or more elements of a
+        particular type.
+      </li>
+      <li>
+        Because of their fixed length, arrays are rarely used directly in Go.
+      </li>
+      <li>
+        By default elements of a new array array variable are initally set to
+        zero value for the element type, which is 0 for numbers.
+      </li>
+    </ul>
+
+    <pre><code class="lang-go">
+var a [3]int                // array of 3 integers
+fmt.Println(a[0])           // print the first element
+fmt.Println(a[len(a) - 1])  // print the last element, a[2]
+    </code></pre>
+  </section>
+  <section>
+    <pre><code class="lang-go">
+a := [2]int{1, 2}
+b := [...]int{1, 2}
+c := [2]int{1, 3}
+
+fmt.Println(a == b, a == c, b == c) // "true false false"
+
+d := [3]int{1, 2}
+fmt.Prinln(a == d) // compile error: cannot compare [2]int == [3]int
+    </code></pre>
+    <pre><code class="lang-go">
+// Print the indices and elements.
+for i, v := range a {
+  fmt.Printf("%d %d\n", i, v)
+}
+
+// Print the elements only.
+for _, v := range a {
+  fmt.Printf("%d\n", v)
+}
+    </code></pre>
+  </section>
+  <section>
+    <h2>Slices</h2>
+    <pre><code class="lang-go">
+[]T  // slice of T
+      </code></pre>
+    <ul>
+      <li>
+        <strong class="hl-orange">Descriptor</strong> for an underlying array
+        segment
+      </li>
+      <li>
+        May <em class="hl-green">grow</em> and <em class="hl-green">shrink</em>
+      </li>
+      <li>Has length and capacity</li>
+      <li>Assigning a slice copies the descriptor, not the underlying array</li>
+    </ul>
+  </section>
+  <section>
+    <img src="./img/slice.png" />
+  </section>
+  <section>
+    <ul>
+      <li>Common slice operations:</li>
+      <ul>
+        <li>
+          The <em>slice operator</em><code>s[i:j]</code>, where 0 &lt;= i &lt;=
+          j &lt;= cap(s), creates a new slice that refers to elements i through
+          j - 1 of the sequence s.
+        </li>
+      </ul>
+      <pre><code class="lang-go">
+len(s)
+s[i]
+s[i:j]
+append(s, x)  // append element x to slice s and return new slice
+      </code></pre>
+      <li>Slices play the role of dynamically sized arrays</li>
+      <li>Widely used in Go code</li>
+    </ul>
+  </section>
+</section>
+<section>
+  <section class="hands-on">
+    <h2>
+      <a
+        href="https://raw.githubusercontent.com/SBU-CE/ie-with-go/main/06-arrays/main.go"
+        >&lt;Code Time.go&gt;</a
+      >
+    </h2>
+    <ul>
+      <li>Arrays</li>
+    </ul>
+  </section>
+  <section class="hands-on">
+    <h2>
+      <a
+        href="https://raw.githubusercontent.com/SBU-CE/ie-with-go/main/07-slices/main.go"
+        >&lt;Code Time.go&gt;</a
+      >
+    </h2>
+    <ul>
+      <li>Slices with <code>make</code></li>
+    </ul>
+  </section>
+  <section class="hands-on">
+    <h2>
+      <a
+        href="https://raw.githubusercontent.com/SBU-CE/ie-with-go/main/08-arrays-and-slices/main.go"
+        >&lt;Code Time.go&gt;</a
+      >
+    </h2>
+    <ul>
+      <li>Slice operations</li>
+    </ul>
+  </section>
+</section>
+<section>
+  <section>
+    <h2>Structures</h2>
+    <pre><code class="lang-go">
+package main
+
+type Sample struct {
+  S1      int
+  S2      int
+  S3      string
+  private float64
+}
+
+func main() {
+  var smp Sample
+  smp.S1 = 10
+  smp.S2 = 20
+  smp.S3 = "Hello World"
+}
+  </code></pre>
+  </section>
+  <section>
+    <ul>
+      <li>
+        A struct is an aggregate data type that groups together zero or more
+        named values of arbitrary types as a single entity
+      </li>
+      <li>Each value is called a field</li>
+      <li>C Structures 🕺</li>
+      <li>Data hiding:</li>
+      <ul>
+        <li>
+          The name of a struct field is exported if it begins with a capital
+          letter; this is Go's main access control mechanism.
+        </li>
+        <li>
+          <code class="hl-orange">S1</code>, <code class="hl-orange">S2</code>,
+          <code class="hl-orange">S3</code> are public and can be accessed from
+          anywhere.
+        </li>
+        <li>
+          <code class="hl-green">private</code> is private and is only visible
+          to code in the <strong class="hl-yellow">same package</strong>.
+        </li>
+      </ul>
+    </ul>
+  </section>
+</section>
+<section>
+  <h2>Methods</h2>
+  <pre><code class="lang-go">
+package main
+
+import "fmt"
+
+type Example struct {
+  Val   string
+  count int
+}
+
+// define a custom type based on go standard types
+type integer int
+
+func (i integer) log() {
+  fmt.Printf("%d\n", i)
+}
+
+// pointer reciever which can change 'example' fields
+func (e *Example) Log() {
+  e.count++
+  fmt.Printf("%d %s\n", e.count, e.Val)
+}
+
+func main() {
+  var i integer
+  exm := Example{
+    Val:   "Example",
+    count: 10}
+  i.log()
+  exm.Log()
+}
+    </code></pre>
+</section>
+<section class="hands-on">
+  <h2>
+    <a
+      href="https://raw.githubusercontent.com/SBU-CE/ie-with-go/main/10-structs/main.go"
+      >&lt;Code Time.go&gt;</a
+    >
+  </h2>
+  <ul></ul>
+</section>
+<section>
+  <h2>Interfaces</h2>
+  <pre><code class="lang-go">
+package main
+
+import "fmt"
+
+type Printer interface {
+  Print()
+}
+
+type Foo struct {
+  X, Y int
+}
+
+type Bar struct {
+  X, Y float64
+}
+
+func (f Foo) Print() {
+  fmt.Printf("%d %d\n", f.X, f.Y)
+}
+
+func (b Bar) Print() {
+  fmt.Printf("%g %g\n", b.X, b.Y)
+}
+  </code></pre>
+</section>
+<section class="hands-on">
+  <h2>
+    <a
+      href="https://raw.githubusercontent.com/SBU-CE/ie-with-go/main/11-interfaces/main.go"
+      >&lt;Code Time.go&gt;</a
+    >
+  </h2>
+  <ul></ul>
+</section>
+<section>
+  <h2>Casting Types</h2>
+  <ul>
+    <li>
+      type conversion: A type conversion is similar to a cast in C. It
+      reinterprets the value as a new type
+    </li>
+  </ul>
+  <pre><code class="lang-go">
+package main
+
+func main() {
+  one := 1
+  var float float32
+  float = float32(one)
+}
+  </code></pre>
+</section>
+<section>
+  <h2>Type Assertion</h2>
+  <ul>
+    <li>
+      type assertion: They
+      <strong class="hl-orange">do not convert</strong> between types; they
+      simply state to the compiler that the underlying value has the specific
+      type.
+    </li>
+  </ul>
+  <pre><code class="lang-go">
+package main
+
+import "fmt"
+
+type empty interface{}
+
+type example struct {
+  A int
+}
+
+func main() {
+  one := 1
+  var i empty = one
+  j := example{A: 10}
+  var k empty = j
+  fmt.Println(k.(example).A)
+}
+  </code></pre>
+</section>
+<section>
+  <div class="toc" data-selected="4"></div>
+  <img src="./img/nerdy.png" alt="nerdy" style="height: 300px" />
+</section>
+<section>
+  <h2>Create Point Interface</h2>
+  <pre><code class="lang-go">
+type Point interface {
+  Distance() float64
+  ImageOnX() float64
+  ImageOnY() float64
+}
+    </code></pre>
+</section>
+<section>
+  <h2>Create Catesian Point Structure</h2>
+  <pre><code class="lang-go">
+type Cartesian struct {
+  X float64
+  Y float64
+}
+
+func (c *Cartesian) Distance() float64 {
+  return math.Sqrt(c.X*c.X + c.Y*c.Y)
+}
+
+func (c *Cartesian) ImageOnX() float64 {
+  return c.X
+}
+
+func (c *Cartesian) ImageOnY() float64 {
+  return c.Y
+}
+    </code></pre>
+</section>
+<section>
+  <h2>Create Polar Point Structure</h2>
+  <pre><code class="lang-go">
+type Polar struct {
+  R    float64
+  Teta float64
+}
+
+func (p *Polar) Distance() float64 {
+  return p.R
+}
+
+func (p *Polar) ImageOnX() float64 {
+  return p.R * math.Cos(p.Teta)
+}
+
+func (p *Polar) ImageOnY() float64 {
+  return p.R * math.Sin(p.Teta)
+}
+    </code></pre>
+</section>
+<section>
+  <pre><code class="lang-go">
+func main() {
+  p := Polar{
+    R:    1,
+    Teta: math.Pi / 2,
+  }
+
+  c := Cartesian{
+    X: 3,
+    Y: 4,
+  }
+
+  fmt.Printf("%g %g\n", p.Distance(), c.Distance())
+  fmt.Printf("%g %g\n", c.ImageOnX(), c.ImageOnY())
+  fmt.Printf("%g %g\n", p.ImageOnX(), p.ImageOnY())
+}
+</code></pre>
+</section>
+<section>
+  <pre><code class="lang-go">
+package main
+
+import (
+  "fmt"
+  "math"
+)
+
+type Point interface {
+  Distance() float64
+  ImageOnX() float64
+  ImageOnY() float64
+}
+
+type Cartesian struct {
+  X float64
+  Y float64
+}
+
+func (c *Cartesian) Distance() float64 {
+  return math.Sqrt(c.X*c.X + c.Y*c.Y)
+}
+
+func (c *Cartesian) ImageOnX() float64 {
+  return c.X
+}
+
+func (c *Cartesian) ImageOnY() float64 {
+  return c.Y
+}
+
+type Polar struct {
+  R    float64
+  Teta float64
+}
+
+func (p *Polar) Distance() float64 {
+  return p.R
+}
+
+func (p *Polar) ImageOnX() float64 {
+  return p.R * math.Cos(p.Teta)
+}
+
+func (p *Polar) ImageOnY() float64 {
+  return p.R * math.Sin(p.Teta)
+}
+
+func main() {
+  p := Polar{
+    R:    1,
+    Teta: math.Pi / 2,
+  }
+
+  c := Cartesian{
+    X: 3,
+    Y: 4,
+  }
+
+  fmt.Printf("%g %g\n", p.Distance(), c.Distance())
+  fmt.Printf("%g %g\n", c.ImageOnX(), c.ImageOnY())
+  fmt.Printf("%g %g\n", p.ImageOnX(), p.ImageOnY())
+}
+    </code></pre>
+</section>
+<section>
+  <div class="toc" data-selected="5"></div>
+  <img src="./img/dep.png" alt="dep" style="height: 300px" />
+</section>
+<section>
+  <h2>Go Packages</h2>
+  <ul>
+    <li>
+      A package is made up of Go files that live in the same directory and have
+      the same package statement at the beginning.
+    </li>
+  </ul>
+</section>
+<section>
+  <h2>greet Package</h2>
+  <pre><code class="plaintext">
+└── gopherguides
+    └── greet
+        └── greet.go
+  </code></pre>
+  <pre><code class="lang-go">
+package greet
+
+import "fmt"
+
+func Hello() {
+    fmt.Println("Hello, World!")
+}
+  </code></pre>
+</section>
+<section>
+  <h2>main Package</h2>
+  <pre><code class="plaintext">
+└── gopherguides
+    └── example
+        └── main.go
+  </code></pre>
+  <pre><code class="lang-go">
+package main
+
+import "github.com/gopherguides/greet"
+
+func main() {
+    greet.Hello()
+}
+  </code></pre>
+</section>
+<section>
+  <ul>
+    <li>
+      Go does not have the concept of public, private, or protected modifiers
+      like other languages do.
+    </li>
+    <li>
+      External visibility is controlled by
+      <strong class="hl-orange">capitalization</strong>.
+    </li>
+    <li>
+      Types, variables, functions, and so on, that start with a capital letter
+      are available, publicly, outside the current package.
+    </li>
+    <li>
+      A symbol that is visible outside its package is considered to be
+      <em class="hl-green">exported</em>.
+    </li>
+  </ul>
+</section>
+<section>
+  <h2>Go Modules</h2>
+  <ul>
+    <li>
+      A module is a collection of packages that are released, versioned, and
+      distributed together. Modules may be downloaded directly from version
+      control repositories or from module proxy servers.
+    </li>
+    <li>
+      A module is identified by a <em class="hl-orange">module path</em>, which
+      is declared in a <code class="hl-yellow">go.mod</code> file, together with
+      information about the module's
+      <strong class="hl-violet">dependencies</strong>.
+    </li>
+    <li>
+      the module <code class="hl-orange">golang.org/x/net</code> contains a
+      package in the directory <code class="hl-green">html</code>. That
+      package's path is <code class="hl-yellow">golang.org/x/net/html</code>.
+    </li>
+  </ul>
+</section>
+<section>
+  <section>
+    <h2>Module Path</h2>
+    <ul>
+      <li>
+        A module path should describe both
+        <strong class="hl-orange">what the module does</strong> and
+        <strong class="hl-green">where to find it</strong>.
+      </li>
+    </ul>
+  </section>
+  <section>
+    <ul>
+      <li>
+        The repository root path is the portion of the module path that
+        corresponds to the <strong class="hl-green">root directory</strong> of
+        the <em class="hl-cyan">version control repository</em>
+        where the module is developed.
+      </li>
+      <ul>
+        <li>
+          Most modules are defined in their repository's root directory, so this
+          is usually the entire path.
+        </li>
+        <li>
+          For example, golang.org/x/net is the repository root path for the
+          module of the same name.
+        </li>
+      </ul>
+      <li>
+        If the module is not defined in the repository's root directory, the
+        <em class="hl-orange">module subdirectory</em> is the part of the module
+        path that names the directory, not including the major version suffix.
+      </li>
+      <li>
+        If the module is released at major version 2 or higher, the module path
+        <strong class="hl-yellow"
+          >must end with a major version suffix like /v2</strong
+        >.
+      </li>
+      <ul>
+        <li>
+          This <strong class="hl-red">may or may not</strong> be part of the
+          subdirectory name. For example, the module with path
+          golang.org/x/repo/sub/v2 could be in the /sub or /sub/v2 subdirectory
+          of the repository golang.org/x/repo.
+        </li>
+      </ul>
+    </ul>
+  </section>
+</section>
+<section>
+  <div class="toc" data-selected="6"></div>
+</section>
+<section>
+  <h2>HTTP Server</h2>
+  <ul>
+    <li>We want to write our http server to handle request in our way</li>
+    <li>
+      Golang has core and third party libraries for implementing the http server
+    </li>
+    <li>We are going to use <a href="https://echo.labstack.com/">echo</a></li>
+  </ul>
+  <img src="./img/echo.png" alt="echo" />
+</section>
+<section>
+  <h2>Install Echo</h2>
+  <pre><code class="plaintext">
+&gt; go mod init github.com/sbu-ce/ie-with-go/echo
+&gt; go get github.com/labstack/echo/v4
+  </code></pre>
+</section>
+<section>
+  <h2>Routes</h2>
+  <ul>
+    <li>Build an instance of echo</li>
+    <pre><code class="lang-go">
+e := echo.New()
+    </code></pre>
+    <li>Specify which function shold be called for each route</li>
+    <pre><code class="lang-go">
+e.POST("/hello", func (c echo.Context) error {
+  c.JSON(http.StatusOK, "Hello World")
+})
+    </code></pre>
+  </ul>
+</section>
+<section>
+  <div class="toc" data-selected="7"></div>
+</section>
+<section>
+  <h2>Goroutines</h2>
+  <ul>
+    <li>
+      The <code class="hl-orange">go</code> statement launches a function call
+      as a goroutine
+    </li>
+    <pre><code class="lang-go">
+go f()
+go f(x, y, ...)
+    </code></pre>
+
+    <li>A goroutine runs concurrently (but not necessarily in parallel)</li>
+    <li>
+      A goroutine is a thread of control within the program, with its own local
+      variables and stack. Much cheaper to create and schedule than operating
+      system threads.
+    </li>
+  </ul>
+</section>
+<section>
+  <h2>A Simple Example</h2>
+  <p>
+    Function f is launched as 3 different goroutines, all running concurrently:
+  </p>
+  <pre><code class="lang-go">
+package main
+
+import (
+  "fmt"
+  "time"
+)
+
+func f(msg string, delay time.Duration) {
+  for {
+    fmt.Println(msg)
+    time.Sleep(delay)
+  }
+}
+
+func main() {
+  go f("A--", 300*time.Millisecond)
+  go f("-B-", 500*time.Millisecond)
+  go f("--C", 1100*time.Millisecond)
+  time.Sleep(20 * time.Second)
+}
+  </code></pre>
+</section>
+<section>
+  <h2>Communication via channels</h2>
+  <ul>
+    <li>
+      A channel type specifies a channel value type (and possibly a
+      communication direction):
+    </li>
+
+    <pre><code class="lang-go">
+chan int
+chan&lt;- string  // send-only channel
+&lt;-chan T       // receive-only channel
+    </code></pre>
+
+    <li>A channel is a variable of channel type:</li>
+
+    <pre><code class="lang-go">
+var ch chan int
+ch := make(chan int)  // declare and initialize with newly made channel
+    </code></pre>
+
+    <li>A channel permits _sending_ and _receiving_ values:</li>
+
+    <pre><code class="lang-go">
+ch &lt;- 1   // send value 1 on channel ch
+x = &lt;-ch  // receive a value from channel ch (and assign to x)
+  </code></pre>
+
+    <li>Channel operations synchronize the communicating goroutines.</li>
+  </ul>
+</section>
+<section>
+  <h2>Communicating goroutines</h2>
+  <p>Each goroutine sends its results via channel ch:</p>
+  <pre><code class="lang-go">
+func f(msg string, delay time.Duration, ch chan string) {
+  for {
+    ch &lt;- msg
+    time.Sleep(delay)
+  }
+}
+  </code></pre>
+  <p>
+    The main goroutine receives (and prints) all results from the same channel:
+  </p>
+  <pre><code class="lang-go">
+func main() {
+  ch := make(chan string)
+  go f("A--", 300*time.Millisecond, ch)
+  go f("-B-", 500*time.Millisecond, ch)
+  go f("--C", 1100*time.Millisecond, ch)
+
+  for i := 0; i &lt; 100; i++ {
+    fmt.Println(i, &lt;-ch)
+  }
+}
+  </code></pre>
+</section>
+<section>
+  <h2>References 📚</h2>
+  <ul>
+    <li>
+      <a
+        href="https://www.digitalocean.com/community/tutorials/how-to-write-packages-in-go"
+        >https://www.digitalocean.com/community/tutorials/how-to-write-packages-in-go</a
+      >
+    </li>
+    <li><a href="https://golang.org/ref/mod">https://golang.org/ref/mod</a></li>
+  </ul>
+</section>
+
+      </div>
+    </div>
+
+    <script src="/IE-lecture/slides/lib/js/head.min.js"></script>
+    <script src="/IE-lecture/slides/js/reveal.js"></script>
+
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        history: true,
+        slideNumber: true,
+
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+          { src: '/IE-lecture/slides/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          {
+            src: '/IE-lecture/slides/plugin/toc.js',
+            async: true,
+            condition: function() {
+              if (typeof toc !== undefined) {
+                return true;
+              } else {
+                return false;
+              }
+            },
+            callback: function() { toc.initToCOnLoad([
+              
+                "History",
+              
+                "Advantages",
+              
+                "Say Hello",
+              
+                "Programming Elements",
+              
+                "Analytic geometry",
+              
+                "Packages and Modules",
+              
+                "HTTP Server",
+              
+                "Concurrency",
+              
+            ]); }
+          }
+        ]
+      });
+    </script>
+    <!-- logos and advertising -->
+    <a href="https://github.com/sbu-ce/ie-lecture" target="_blank">
+      <img style="position: absolute; top: 0; right: 0; border: 0;" src="/IE-lecture/img/forkme_right_orange.png" alt="Fork me on GitHub">
+    </a>
+  </body>
+</html>

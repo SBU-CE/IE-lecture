@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="https://github.com/sbu-ce.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>MongoDB</title>
+
+    <link rel="stylesheet" href="/IE-lecture/slides/css/reveal.css">
+    <link rel="stylesheet" href="/IE-lecture/slides/css/theme/league.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="/IE-lecture/slides/lib/css/agate.css">
+
+    <!-- Parham theme! -->
+    <link rel="stylesheet" href="/IE-lecture/slides/css/theme.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? '/IE-lecture/slides/css/print/pdf.css' : '/IE-lecture/slides/css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        
+        <section>
+  <p>
+    The presentation is in PowerPoint format so
+    <a href="./presentation.pptx">click here</a>
+    to download it.
+  </p>
+</section>
+
+      </div>
+    </div>
+
+    <script src="/IE-lecture/slides/lib/js/head.min.js"></script>
+    <script src="/IE-lecture/slides/js/reveal.js"></script>
+
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        history: true,
+        slideNumber: true,
+
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+          { src: '/IE-lecture/slides/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          {
+            src: '/IE-lecture/slides/plugin/toc.js',
+            async: true,
+            condition: function() {
+              if (typeof toc !== undefined) {
+                return true;
+              } else {
+                return false;
+              }
+            },
+            callback: function() { toc.initToCOnLoad([
+              
+            ]); }
+          }
+        ]
+      });
+    </script>
+    <!-- logos and advertising -->
+    <a href="https://github.com/sbu-ce/ie-lecture" target="_blank">
+      <img style="position: absolute; top: 0; right: 0; border: 0;" src="/IE-lecture/img/forkme_right_orange.png" alt="Fork me on GitHub">
+    </a>
+  </body>
+</html>

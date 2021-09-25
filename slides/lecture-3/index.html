@@ -1,0 +1,1749 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="https://github.com/sbu-ce.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>HTML</title>
+
+    <link rel="stylesheet" href="/IE-lecture/slides/css/reveal.css">
+    <link rel="stylesheet" href="/IE-lecture/slides/css/theme/league.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="/IE-lecture/slides/lib/css/agate.css">
+
+    <!-- Parham theme! -->
+    <link rel="stylesheet" href="/IE-lecture/slides/css/theme.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? '/IE-lecture/slides/css/print/pdf.css' : '/IE-lecture/slides/css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        
+        <section>
+          <h1 style="color: #ffea00;">HTML</h1>
+          <h5>Internet Engineering</h5>
+          <span class="cyan-select">Spring 2021</span><br>
+          <a style="color: #ff9900;" href="https://1995parham.me">@1995parham</a>
+        </section>
+        
+        <section>
+  <div class="toc"></div>
+</section>
+<section>
+  <div class="toc" data-selected="0"></div>
+</section>
+<section>
+  <section>
+    <h2>Introduction</h2>
+    <ul>
+      <li>Remark: The idea of WWW is document sharing</li>
+      <li>Main question: How to define the structure of document?</li>
+      <ul>
+        <li>Text, tables, figures, link, ...</li>
+      </ul>
+      <li>In 1980s</li>
+      <ul>
+        <li>Binary formats? Useless</li>
+        <ul>
+          <li>
+            Different machines, no popular graphical desktops, no such popular
+            format such as PDF, Doc, ...
+          </li>
+        </ul>
+      </ul>
+    </ul>
+  </section>
+  <section>
+    <ul>
+      <ul>
+        <li>Text format</li>
+        <ul>
+          <li>It is okay, everyone knows ASCII</li>
+          <ul>
+            <li>But how to describe structure, layout, and formatting?</li>
+          </ul>
+          <li>
+            Add meaning to each part of text using special predefined markup,
+            E.g., It is heading, It is paragraph, It is table ...
+          </li>
+        </ul>
+      </ul>
+    </ul>
+  </section>
+</section>
+<section>
+  <h2>Introduction (Cont.)</h2>
+  <ul>
+    <li>HTML (Hyper Text Markup Language)</li>
+    <ul>
+      <li>A language to define structure of web docs</li>
+      <ul>
+        <li><span class="hl-orange">Tags</span> specify the structure</li>
+      </ul>
+    </ul>
+    <li>HTML</li>
+    <ul>
+      <li>Was defined with SGML</li>
+      <li>Is not a programming language</li>
+      <ul>
+        <li>
+          <strong class="hl-red">Cannot</strong> be used to describe
+          <span class="hl-green">computations</span>
+        </li>
+      </ul>
+      <li>HTML does/should not specify presentation</li>
+      <ul>
+        <li>Font family, style, color, ...</li>
+        <li>Cascading Style Sheet (CSS) is responsible for presentation</li>
+      </ul>
+    </ul>
+  </ul>
+</section>
+<section>
+  <section>
+    <h2>Introduction (Cont.)</h2>
+    <ul>
+      <li>
+        HTML 1 (Berners-Lee, 1989): very basic, limited integration of
+        multimedia
+      </li>
+      <li>1993, Mosaic added many new features (e.g., integrated images)</li>
+      <li>
+        HTML 2.0 (IETF, 1994): tried to standardize these &amp; other features
+      </li>
+      <li>1994-96, Netscape &amp; IE added many new, divergent features</li>
+    </ul>
+  </section>
+  <section>
+    <ul>
+      <li>HTML 3.2 (W3C, 1996): attempted to unify into a single standard</li>
+      <li>HTML 4.0 (W3C, 1997): attempted to map out future direction</li>
+      <li>XHTML 1.0 (W3C, 2000): modified to conform to XML standards</li>
+      <li>
+        HTML 5 (Web Hypertext Application Technology Working Group, W3C): New
+        version of HTML4, XHTML 1.0
+      </li>
+    </ul>
+  </section>
+</section>
+<section>
+  <h2>HTML Basics: Tags</h2>
+  <ul>
+    <li>XHTML is a text document collecting elements</li>
+    <li>
+      Element: (usually) a tag pair (opening &amp; closing) + content between
+      them
+    </li>
+    <ul>
+      <li>E.g., &lt;h1&gt;This is header&lt;/h1&gt;</li>
+      <li>Not all tags have content</li>
+    </ul>
+    <li>Tags specify markups for the content</li>
+    <li>Tags</li>
+    <ul>
+      <li>&lt;tagname&gt;: opening (start) tag</li>
+      <li>&lt;/tagname&gt;: closing (end) tag</li>
+      <li>&lt;tagname /&gt;: self-closing tag</li>
+    </ul>
+  </ul>
+</section>
+<section>
+  <h2>HTML Basics: Attributes</h2>
+  <ul>
+    <li>Each tag can have some attributes</li>
+    <ul>
+      <li>Attributes customize tags</li>
+    </ul>
+    <pre><code class="lang-html">
+&lt;tagname attrib1=“setting” attrib2=“setting” ...&gt;
+...
+&lt;/tagname&gt;
+    </code></pre>
+    <li>Core attributes can be used for most of elements</li>
+    <ul>
+      <li>
+        <code class="hl-yellow">id</code>: A unique identifier to element
+        starting with "A-Z"
+      </li>
+      <li>
+        <code class="hl-yellow">class</code>: Assign a class to the element,
+        multiple classes are allowed
+      </li>
+      <li>
+        <code class="hl-yellow">title</code>: Specifies extra information about
+        an element
+      </li>
+      <ul>
+        <li>
+          The information is most often shown as a tooltip text when the mouse
+          moves over the element.
+        </li>
+      </ul>
+    </ul>
+  </ul>
+</section>
+<section>
+  <h2>HTML Basics: Tag &amp; Attribute &amp; Element</h2>
+  <img src="./img/html-tag.png" />
+</section>
+<section>
+  <h2>HTML Processing</h2>
+  <ul>
+    <li>HTML is just a text file; How does it work?</li>
+    <li>It is processed by applications for a specific purpose!</li>
+    <li>Search engine objectives:</li>
+    <ul>
+      <li>Analyze page, extract elements, prioritize, ranking, ...</li>
+      <li>Each tag has meaning, used for ranking</li>
+      <ul>
+        <li>E.g., paragraphs are not as important as headings</li>
+      </ul>
+    </ul>
+    <li>Web browser objectives:</li>
+    <ul>
+      <li>Display the document to client</li>
+      <li>Rendering</li>
+      <ul>
+        <li>Generate layout for the document</li>
+        <li>Display elements</li>
+      </ul>
+    </ul>
+  </ul>
+</section>
+<section>
+  <section>
+    <h2>HTML Processing: Rendering</h2>
+    <ul>
+      <li>The processing of displaying HTML in browser</li>
+      <li>Not all tags are to be displayed</li>
+      <ul>
+        <li>E.g. Tags in &lt;head&gt;</li>
+      </ul>
+    </ul>
+  </section>
+  <section>
+    <ul>
+      <li>For tags which should be displayed</li>
+      <ul>
+        <li>Tags by themselves are not displayed</li>
+        <li>
+          Each tag has its own
+          <span class="hl-green">default</span> presentation
+        </li>
+      </ul>
+    </ul>
+  </section>
+  <section>
+    <ul>
+      <li>If tag has content, the presentation is applied to content</li>
+      <pre><code class="lang-html">
+&lt;em&gt;I am important&lt;/em&gt;
+      </code></pre>
+      <div class="box">
+        <em>I am important</em>
+      </div>
+      <li>
+        If tag has not content, the presentation is displayed (if it is needed)
+      </li>
+      <pre><code class="lang-html">
+I am a &lt;br /&gt; break
+      </code></pre>
+      <div class="box">
+        I am a <br />
+        break
+      </div>
+    </ul>
+  </section>
+</section>
+<section>
+  <h2>HTML Processing: Rendering (Cont.)</h2>
+  <ul>
+    <li>
+      Web browsers by default start placing elements from
+      <span class="hl-orange">left-top corner</span>
+    </li>
+    <ul>
+      <li>
+        <span class="hl-green">In-line</span> elements are placed from left to
+        right
+      </li>
+      <li>
+        A new line is created for each
+        <span class="hl-cyan">block-level</span> element
+      </li>
+    </ul>
+    <li>Web browsers ignore</li>
+    <ul>
+      <li>Comments</li>
+      <pre><code class="lang-html">
+<!-- ... -->
+      </code></pre>
+      <li>Tags that don’t recognize</li>
+      <li>More than single whitespaces</li>
+      <ul>
+        <li>E.g., Multiple newlines + tabs + spaces &rarr; single space</li>
+      </ul>
+    </ul>
+  </ul>
+</section>
+<section>
+  <section>
+    <h2>The “Hello World” Example</h2>
+    <pre><code class="lang-html">
+<!-- This is the “Hello World” Example -->
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;First Example&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;p&gt; Hello World! &lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+    </code></pre>
+  </section>
+  <section>
+    <img src="./img/example.png" />
+  </section>
+</section>
+<section>
+  <h2>Nested Tags</h2>
+  <ul>
+    <li>Nested Tags</li>
+    <ul>
+      <li>Tree of elements</li>
+      <li>Parent &amp; Child relationship</li>
+    </ul>
+  </ul>
+  <img src="./img/nested.png" style="background-color: white" />
+</section>
+<section>
+  <h2>
+    <a href="https://www.toptal.com/designers/htmlarrows/numbers/"
+      >Special Characters/Symbols</a
+    >
+  </h2>
+  <ul>
+    <li>Some characters and symbols are encoded</li>
+    <ul>
+      <li>Because cannot be used directly in text files</li>
+    </ul>
+  </ul>
+  <table>
+    <thead>
+      <th>Character</th>
+      <th>Coding</th>
+      <th>Number code</th>
+    </thead>
+    <tbody>
+      <tr>
+        <td>&lt;</td>
+        <td>&amp;lt;</td>
+        <td>&amp;#60;</td>
+      </tr>
+      <tr>
+        <td>&gt;</td>
+        <td>&amp;gt;</td>
+        <td>&amp;#62;</td>
+      </tr>
+      <tr>
+        <td>&amp;</td>
+        <td>&amp;amp;</td>
+        <td>&amp;#38</td>
+      </tr>
+      <tr>
+        <td>'&nbsp;'</td>
+        <td>&amp;nbsp;[1]</td>
+        <td>&amp;#160;</td>
+      </tr>
+      <tr>
+        <td>&copy;</td>
+        <td>&amp;copy;</td>
+        <td>&amp;#169;</td>
+      </tr>
+      <tr>
+        <td>&lambda;</td>
+        <td>&amp;lambda;</td>
+        <td>&amp;#955;</td>
+      </tr>
+    </tbody>
+  </table>
+  <small>[1] non breaking space</small>
+</section>
+<section>
+  <div class="toc" data-selected="1"></div>
+</section>
+<section>
+  <h2>XHTML</h2>
+  <ul>
+    <li>HTML is an application of Standard General Markup Language (SGML)</li>
+    <li>XHTML is an application of Extensible Markup Language (XML)</li>
+    <li>XML is more restricted than SGML</li>
+    <ul>
+      <li>XHTML has more restrictions vs. HTML</li>
+      <li>XHTML is more well-defined</li>
+    </ul>
+  </ul>
+</section>
+<section>
+  <section>
+    <h2>XHTML Rules (vs. HTML)</h2>
+    <ul>
+      <li>All tags have ending (closing) tags</li>
+      <ul>
+        <li>Some tags are self-closing</li>
+        <pre><code class="lang-html">
+&lt;br /&gt;
+        </code></pre>
+      </ul>
+      <li>Tags cannot be overlapped</li>
+      <ul>
+        <pre><code class="lang-html">
+&lt;strong&gt;&lt;em&gt;test&lt;/strong&gt;&lt;/em&gt;
+        </code></pre>
+        <li>Who is parent? Who is child?</li>
+      </ul>
+      <li>All tags are lowercase</li>
+      <li>Attributes' value must be in double quotation</li>
+      <li>Browsers ignore unknown tags and attributes</li>
+    </ul>
+  </section>
+  <section>
+    <ul>
+      <li>
+        Layout <span class="hl-cyan">(styles)</span> are separated from
+        <span class="hl-yellow">markup</span>
+      </li>
+      <ul>
+        <li>Markup is used for meaning &amp; structure</li>
+        <li>
+          The <span class="hl-orange">obsolete</span> HTML
+          <span class="hl-green">Big Element</span> (<code>&lt;big&gt;</code>)
+          renders the enclosed text at a font size one level larger than the
+          surrounding text.
+        </li>
+        <li>
+          The <span class="hl-orange">obsolete</span> HTML
+          <span class="hl-green">Center Element</span>
+          (<code>&lt;center&gt;</code>) is a block-level element that displays
+          its block-level or inline contents centered horizontally within its
+          containing element.
+        </li>
+      </ul>
+    </ul>
+  </section>
+</section>
+<section>
+  <h2>Anatomy of an HTML document</h2>
+  <pre><code class="lang-html">
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;My test page&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;img src="images/firefox-icon.png" alt="My test image"&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+  </code></pre>
+</section>
+<section>
+  <section>
+    <h2>Anatomy of an HTML document (Cont.)</h2>
+    <h3><code>&lt;!DOCTYPE html&gt;</code> the doctype</h3>
+    <ul>
+      <li>It is <span class="hl-orange">required</span> preamble.</li>
+      <li>
+        In the mists of time, when HTML was young (around 1991/92), doctypes
+        were meant to act as links to a set of rules that the HTML page had to
+        follow to be considered good HTML, which could mean automatic error
+        checking and other useful things.
+      </li>
+      <li>
+        However these days, they don't do much, and are basically just needed to
+        make sure your document behaves correctly.
+      </li>
+      <li>That's all you need to know for now.</li>
+    </ul>
+  </section>
+  <section>
+    <h3><code>&lt;html&gt;&lt;/html&gt;</code></h3>
+    <ul>
+      <li>
+        This element wraps all the content on the entire page and is sometimes
+        known as the root element.
+      </li>
+    </ul>
+  </section>
+  <section>
+    <h3><code>&lt;head&gt;&lt;/head&gt;</code></h3>
+    <ul>
+      <li>
+        This element acts as a container for all the stuff you want to include
+        on the HTML page that <span class="hl-orange">isn't</span> the content
+        you are showing to your page's viewers.
+      </li>
+      <ul>
+        <li>
+          keywords and a page description that you want to appear in search
+          results
+        </li>
+        <li>CSS to style our content</li>
+        <li>character set declarations</li>
+        <li>and more</li>
+      </ul>
+    </ul>
+  </section>
+  <section>
+    <h3><code>&lt;meta&gt;&lt;/meta&gt;</code></h3>
+    <ul>
+      <li>
+        This element sets the character set your document should use to UTF-8.
+      </li>
+    </ul>
+  </section>
+  <section>
+    <h3><code>&lt;title&gt;&lt;/title&gt;</code></h3>
+    <ul>
+      <li>
+        This sets the title of your page, which is the title that appears in the
+        browser tab the page is loaded in.
+      </li>
+    </ul>
+  </section>
+  <section>
+    <h3><code>&lt;body&gt;&lt;/body&gt;</code></h3>
+    <ul>
+      <li>
+        This contains all the content that you want to show to web users when
+        they visit your page.
+      </li>
+    </ul>
+  </section>
+</section>
+<section>
+  <div class="toc" data-selected="2"></div>
+</section>
+<section>
+  <section>
+    <h2>HTML elements</h2>
+    <ul>
+      <li class="hl-green">Main root</li>
+      <li class="hl-cyan">Document metadata</li>
+      <li class="hl-yellow">Sectioning root</li>
+      <li class="hl-yellow">Content sectioning</li>
+      <li class="hl-yellow">Text content</li>
+      <li class="hl-yellow">Inline text semantics</li>
+      <li class="hl-yellow">Image and multimedia</li>
+      <li class="hl-yellow">Embedded content</li>
+      <li class="hl-yellow">Scripting</li>
+    </ul>
+  </section>
+  <section>
+    <ul>
+      <li class="hl-yellow">Table content</li>
+      <li class="hl-yellow">Forms</li>
+      <li class="hl-yellow">Interactive elements</li>
+      <li class="hl-yellow">Web Components</li>
+    </ul>
+  </section>
+</section>
+<section>
+  <h2>Main root</h2>
+  <ul>
+    <li>
+      The HTML <code class="hl-orange">&lt;html&gt;</code> element represents
+      the root (top-level element) of an HTML document, so it is also referred
+      to as the root element.
+    </li>
+    <li>All other elements must be descendants of this element.</li>
+  </ul>
+</section>
+<section>
+  <h2>Sectioning root</h2>
+  <ul>
+    <li>
+      The HTML <code class="hl-orange">&lt;body&gt;</code> Element represents
+      the content of an HTML document.
+    </li>
+    <li>
+      There can be only <span class="hl-yellow">one</span>
+      <span class="hl-orange">&lt;body&gt;</span> element in a document.
+    </li>
+  </ul>
+</section>
+<section>
+  <section>
+    <h2>Content sectioning</h2>
+    <ul>
+      <li>
+        Content sectioning elements allow you to organize the document content
+        into logical pieces.
+      </li>
+    </ul>
+  </section>
+  <section>
+    <ul>
+      <li>
+        The HTML <code class="hl-orange">&lt;h1&gt;–&lt;h6&gt;</code> elements
+        represent six levels of section headings.
+        <code class="hl-orange">&lt;h1&gt;</code> is the highest section level
+        and <code class="hl-orange">&lt;h6&gt;</code> is the lowest.
+      </li>
+      <li>
+        The HTML <code class="hl-orange">&lt;section&gt;</code> element
+        represents a standalone section — which
+        <span class="hl-red">doesn't</span> have a more specific semantic
+        element to represent it — contained within an HTML document.
+      </li>
+      <li>
+        Content you are sectioning must have a natural heading within it (for
+        example <code class="hl-orange">h1-h6</code>).
+      </li>
+    </ul>
+  </section>
+  <section>
+    <ul>
+      <li>
+        The HTML <code class="hl-orange">&lt;footer&gt;</code> element
+        represents a footer for its nearest sectioning content or sectioning
+        root element. A footer typically contains information about the author
+        of the section, copyright data or links to related documents.
+      </li>
+      <li>
+        The HTML <code class="hl-orange">&lt;header&gt;</code> element
+        represents introductory content, typically a group of introductory or
+        navigational aids. It may contain some heading elements but also a logo,
+        a search form, an author name, and other elements.
+      </li>
+    </ul>
+  </section>
+  <section>
+    <ul>
+      <li>
+        The HTML <code class="hl-orange">&lt;nav&gt;</code> element represents a
+        section of a page whose purpose is to provide navigation links, either
+        within the current document or to other documents. Common examples of
+        navigation sections are menus, tables of contents, and indexes.
+      </li>
+    </ul>
+  </section>
+</section>
+<section>
+  <section>
+    <h2>Text content</h2>
+    <ul>
+      <li>
+        Use HTML text content elements to organize blocks or sections of content
+        placed between the opening
+        <code class="hl-orange">&lt;body&gt;</code> and closing
+        <code class="hl-orange">&lt;/body&gt;</code> tags.
+      </li>
+      <li>
+        The HTML <code class="hl-orange">&lt;p&gt;</code> element represents a
+        paragraph.
+      </li>
+      <li>
+        The HTML <code class="hl-orange">&lt;pre&gt;</code> element represents
+        preformatted text which is
+        <span class="hl-yellow">to be presented exactly as written</span> in the
+        HTML file.
+      </li>
+    </ul>
+  </section>
+  <section>
+    <ul>
+      <li>
+        The HTML <code class="hl-orange">&lt;ol&gt;</code> element represents an
+        ordered list of items — typically rendered as a numbered list.
+      </li>
+      <ul>
+        <li>
+          Tho ordered list uses a specific attribute to define a custom start
+          number. The attribute syntax is start=”X”, where the X value is the
+          list custom starting number.
+        </li>
+      </ul>
+      <li>
+        The HTML <code class="hl-orange">&lt;ul&gt;</code> element represents an
+        unordered list of items, typically rendered as a bulleted list.
+      </li>
+      <ul>
+        <li>
+          The HTML <code class="hl-orange">&lt;li&gt;</code> element is used to
+          represent an item in a list.
+        </li>
+      </ul>
+      <li>
+        The HTML <code class="hl-orange">&lt;dl&gt;</code> element represents a
+        description list.
+      </li>
+      <ul>
+        <li>
+          The element encloses a list of groups of terms (specified using the
+          <code class="hl-orange">&lt;dt&gt;</code> element) and descriptions
+          (provided by <code class="hl-orange">&lt;dd&gt;</code>
+          elements).
+        </li>
+      </ul>
+    </ul>
+  </section>
+  <section>
+    <pre><code class="lang-html">
+&lt;ul&gt;
+  &lt;li&gt;Item 1&lt;/li&gt;
+  &lt;li&gt;Item 2&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+  &lt;li&gt;Item 1&lt;/li&gt;
+  &lt;li&gt;Item 2&lt;/li&gt;
+&lt;/ol&gt;
+&lt;dl&gt;
+  &lt;dt&gt;Hello&lt;/dt&gt;
+  &lt;dd&gt;Means salam&lt;/dd&gt;
+&lt;/dl&gt;
+    </code></pre>
+    <ul>
+      <li>Item 1</li>
+      <li>Item 2</li>
+    </ul>
+    <ol>
+      <li>Item 1</li>
+      <li>Item 2</li>
+    </ol>
+    <dl>
+      <dt>Hello</dt>
+      <dd>Means salam</dd>
+    </dl>
+  </section>
+  <section>
+    <ul>
+      <li>
+        The HTML Content Division element (<code class="hl-orange"
+          >&lt;div&gt;</code
+        >) is the generic container for flow content.
+      </li>
+    </ul>
+  </section>
+</section>
+<section>
+  <section>
+    <h2>Inline text semantics</h2>
+    <ul>
+      <li>
+        Use the HTML inline text semantic to define the
+        <em class="hl-green">meaning</em>,
+        <strong class="hl-cyan">structure</strong>, or style of a word, line, or
+        any arbitrary piece of text.
+      </li>
+      <li>
+        The HTML <code class="hl-orange">&lt;span&gt;</code> element is a
+        generic inline container for phrasing content, which does not inherently
+        represent anything.
+      </li>
+      <li>
+        The HTML <code class="hl-orange">&lt;q&gt;</code> element indicates that
+        the enclosed text is a short inline quotation. Most modern browsers
+        implement this by surrounding the text in quotation marks.
+      </li>
+      <li>
+        The HTML Citation element (<code class="hl-orange">&lt;cite&gt;</code>)
+        is used to describe a reference to a cited creative work, and must
+        include the title of that work.
+      </li>
+    </ul>
+  </section>
+  <section>
+    <ul>
+      <li>
+        The HTML <code class="hl-orange">&lt;a&gt;</code> element (or anchor
+        element), with its <code class="hl-yellow">href</code> attribute,
+        creates a hyperlink to web pages, files, email addresses (mailto),
+        locations in the same page (fragment), or anything else a URL can
+        address.
+      </li>
+      <ul>
+        <li>
+          When scheme is not give in the URL &amp; base is not set in
+          <code class="hl-orange">&lt;head&gt;</code>, it is assumed as a file
+          in current domain
+        </li>
+        <ul>
+          <li>
+            <span class="hl-yellow">href</span>=“<span class="hl-red"
+              >http://</span
+            >www.google.com” open Google
+          </li>
+          <li>
+            <span class="hl-yellow">href</span>=“www.google.com” open a file in
+            current directory named www.google.com
+          </li>
+          <li>
+            <span class="hl-yellow">href</span>= “<span class="hl-red">/</span
+            >www.google.com” open a file in the root directory named
+            www.google.com
+          </li>
+        </ul>
+      </ul>
+    </ul>
+  </section>
+  <section>
+    <ul>
+      <ul>
+        <li>
+          For paths in <em class="hl-green">current domain</em>, similar to
+          filesystem, paths can be
+        </li>
+        <ul>
+          <li>
+            <span class="hl-cyan">Absolute</span>: Path starts from web server
+            root directory
+          </li>
+          <li>
+            <span class="hl-violet">Relative</span>: Path starts from current
+            directory
+          </li>
+        </ul>
+        <li>Scheme can be every supported protocol</li>
+        <ul>
+          <li>E.g. <code>mailto</code> for sending email</li>
+          <li>E.g. <code>javascript</code> to run code</li>
+        </ul>
+        <li>
+          By default links are opened in the same window, to open link in new
+          window
+        </li>
+        <ul>
+          <li>Attribute <span class="hl-yellow">target</span>="_blank"</li>
+        </ul>
+        <li>
+          Everything between
+          <code class="hl-orange">&lt;a&gt; &lt;/a&gt;</code> is considered as
+          link name
+        </li>
+        <li>Avoid spaces after <code>&lt;a&gt;</code> and before &lt;/a&gt;</li>
+      </ul>
+    </ul>
+  </section>
+  <section>
+    <ul>
+      <ul>
+        <li>
+          <span class="hl-cyan">#frag</span> part in URL is used to jump middle
+          of a large document
+        </li>
+        <li>Step one: assign an <em class="hl-yellow">id</em> to the part</li>
+        <pre><code class="lang-html">
+&lt;a id="SctionResult"&gt;Results&lt;/a&gt;
+&lt;h2 id="SctionResult"&gt;Results&lt;/h2&gt;
+        </code></pre>
+        <li>The <em class="hl-yellow">id</em> is case sensitive</li>
+        <li>
+          Step two: create link using <span class="hl-cyan">#frag</span> feature
+        </li>
+        <pre><code class="lang-html">
+To see result &lt;a href="xyz#SctionResult"&gt;click here&lt;/a&gt;
+        </code></pre>
+      </ul>
+    </ul>
+  </section>
+  <section>
+    <ul>
+      <li>
+        The HTML <code class="hl-orange">&lt;br&gt;</code> element produces a
+        line break in text (carriage-return).
+      </li>
+      <li>
+        The HTML <code class="hl-orange">&lt;code&gt;</code> element displays
+        its contents styled in a fashion intended to indicate that the text is a
+        short fragment of computer code.
+      </li>
+      <li>
+        The HTML <code class="hl-orange">&lt;em&gt;</code> element marks text
+        that has stress emphasis.
+      </li>
+      <li>
+        The HTML Strong Importance Element (<code class="hl-orange"
+          >&lt;strong&gt;</code
+        >) indicates that its contents have strong importance, seriousness, or
+        urgency.
+      </li>
+    </ul>
+  </section>
+</section>
+<section>
+  <h2>Image and multimedia</h2>
+  <ul>
+    <li>
+      The HTML <code class="hl-orange">&lt;img&gt;</code> element embeds an
+      image into the document.
+    </li>
+    <ul>
+      <li>
+        <code class="hl-yellow">src</code>: address of file (local or remote)
+      </li>
+      <li>
+        <code class="hl-yellow">alt</code>: alternative message shown if image
+        cannot be displayed
+      </li>
+      <li>
+        align: alignment of image with respect to text line (deprecated, is
+        controller by CSS)
+      </li>
+      <li>There is no caption for images!!!Images are inline elements</li>
+    </ul>
+  </ul>
+</section>
+<section>
+  <h2>Embedded content</h2>
+  <ul>
+    <li>
+      The HTML Inline Frame element (
+      <code class="hl-orange">&lt;iframe&gt;</code>
+      ) represents a nested browsing context, embedding another HTML page into
+      the current one.
+    </li>
+  </ul>
+</section>
+<section>
+  <h2>Scripting</h2>
+  <ul>
+    <li>
+      The HTML <code class="hl-orange">&lt;noscript&gt;</code> element defines a
+      section of HTML to be inserted if a script type on the page is unsupported
+      or if scripting is currently turned off in the browser.
+    </li>
+    <li>
+      The HTML <code class="hl-orange">&lt;script&gt;</code> element is used to
+      embed executable code or data; this is typically used to embed or refer to
+      JavaScript code.
+    </li>
+  </ul>
+</section>
+<section>
+  <section>
+    <h2>Table content</h2>
+    <ul>
+      <li>
+        Tables are created by
+        <code class="hl-orange">&lt;table&gt; &lt;/table&gt;</code>
+      </li>
+      <li>
+        Each row is created by
+        <code class="hl-orange">&lt;tr&gt; &lt;/tr&gt;</code>
+      </li>
+      <li>
+        Each column inside a row is created by
+        <code class="hl-orange">&lt;td&gt; &lt;/td&gt;</code>
+      </li>
+      <li>
+        Heading of a column is by
+        <code class="hl-orange">&lt;th&gt; &lt;/th&gt;</code>
+      </li>
+      <li>Block-level element</li>
+    </ul>
+  </section>
+  <section>
+    <pre><code class="lang-html">
+    &lt;table&gt;
+      &lt;caption&gt;I am a lonely table&lt;/caption&gt;
+      &lt;thead&gt;
+        &lt;tr&gt;
+          &lt;th&gt;Head Col 0&lt;/th&gt;
+          &lt;th&gt;Head Col 1&lt;/th&gt;
+        &lt;/tr&gt;
+      &lt;/thead&gt;
+      &lt;tbody&gt;
+        &lt;tr&gt;
+          &lt;td&gt;Row 0 Col 0&lt;/td&gt;
+          &lt;td&gt;Row 0 Col 1&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td&gt;Row 1 Col 0&lt;/td&gt;
+          &lt;td&gt;Row 1 Col 1&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  </code></pre>
+  </section>
+  <section>
+    <table>
+      <caption>
+        I am a lonely table
+      </caption>
+      <thead>
+        <tr>
+          <th>Head Col 0</th>
+          <th>Head Col 1</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Row 0 Col 0</td>
+          <td>Row 0 Col 1</td>
+        </tr>
+        <tr>
+          <td>Row 1 Col 0</td>
+          <td>Row 1 Col 1</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</section>
+<section>
+  <img src="./img/summary.png" />
+</section>
+<section>
+  <section>
+    <h2>Forms</h2>
+    <ul>
+      <li>
+        Forms are used to <strong class="hl-orange">get</strong> information
+        from user
+      </li>
+      <li>HTML is only responsible to gather the information</li>
+      <ul>
+        <li>It does not responsible to process</li>
+        <li>Data are processed by server side scripts</li>
+        <ul>
+          <li>
+            However, some preprocessing can also be performed in client slide
+          </li>
+          <li>
+            As we are going to see, with Javascript we can even use forms' data
+            without any server side processing
+          </li>
+          <ul>
+            <li>
+              <a href="https://github.com/jgraph/drawio" alt="drawio">drawio</a>
+            </li>
+          </ul>
+        </ul>
+      </ul>
+    </ul>
+  </section>
+  <section>
+    <ul>
+      <li>Major form components</li>
+      <ul>
+        <li>The form element</li>
+        <li>Inputs</li>
+        <ul>
+          <li>Text, Checkboxes, radio buttons, select boxes, etc.</li>
+        </ul>
+        <li>Buttons</li>
+        <ul>
+          <li>Submit, cancel, etc.</li>
+        </ul>
+      </ul>
+    </ul>
+  </section>
+  <section>
+    <ul>
+      <li>Forms are created by <code class="hl-orange">form</code></li>
+      <li>
+        Each form must have <code class="hl-green">action</code> and
+        <code class="hl-green">method</code> attributes
+      </li>
+      <ul>
+        <li><code class="hl-green">action</code> is a URL</li>
+        <ul>
+          <li>Server side script that process the data</li>
+        </ul>
+        <li>
+          <code class="hl-green">method</code> is a HTTP method used to send
+          data
+        </li>
+        <ul>
+          <li>
+            <code class="hl-yellow">get</code>: User input data is sent through
+            the <em class="hl-red">query part</em> of URL by HTTP GET method
+          </li>
+          <li>
+            <code class="hl-yellow">post</code>: User input data is sent as the
+            <em class="hl-red">body</em> of HTTP message by HTTP POST method
+          </li>
+        </ul>
+      </ul>
+    </ul>
+  </section>
+  <section>
+    <ul>
+      <li>
+        A from is composed of <code class="hl-orange">input</code> elements
+      </li>
+      <li>
+        Each component has <code class="hl-yellow">type</code>,
+        <code class="hl-yellow">name</code>, and
+        <code class="hl-yellow">value</code> attributes
+      </li>
+      <ul>
+        <li>
+          <code class="hl-yellow">type</code> specifies the type of component
+        </li>
+        <li>
+          <code class="hl-yellow">name</code> is the name of the component
+        </li>
+        <li><code class="hl-yellow">value</code> (except buttons)</li>
+        <ul>
+          <li>
+            If not empty, is <strong class="hl-volet">the default value</strong>
+          </li>
+        </ul>
+      </ul>
+      <li>
+        On submission,
+        <code class="hl-yellow">name</code>=<em class="hl-red">value</em>
+        (user input or default) of the components in the form are sent to server
+        (using the
+        <code class="hl-green">action</code> and
+        <code class="hl-cyan">method</code>: POST, GET)
+      </li>
+      <ul>
+        <li>Server processes the values according to the names</li>
+        <li>It must know the names</li>
+      </ul>
+    </ul>
+  </section>
+  <section>
+    <ul>
+      <li>Single-line text</li>
+      <ul>
+        <li>
+          <code class="hl-yellow">type</code>=<strong class="hl-green"
+            >"text"</strong
+          >
+        </li>
+      </ul>
+      <li>Password (instead of real input, other character is shown)</li>
+      <ul>
+        <li>
+          <code class="hl-yellow">type</code>=<strong class="hl-green"
+            >"password"</strong
+          >
+        </li>
+      </ul>
+      <li>Multi-line text</li>
+      <ul>
+        <li>
+          Instead of <code class="hl-orange">&lt;input&gt;</code>, we use
+          <code class="hl-orange">&lt;textarea&gt; &lt;/textarea&gt;</code>
+        </li>
+        <li>
+          <code class="hl-yellow">cols</code> &amp;
+          <code class="hl-yellow">rows</code> specifies # of columns &amp; rows
+        </li>
+      </ul>
+      <li>
+        <span class="hl-orange">name</span>=<span class="hl-green">value</span>
+        of component is sent to server
+      </li>
+      <ul>
+        <li>Password in plain text format 😱</li>
+      </ul>
+    </ul>
+  </section>
+  <section>
+    <pre><code class="lang-html">
+&lt;form action="http://httpbin.org/get" method="get"&gt;
+  Search:
+  &lt;input type="text" name="txtSearch" value="" size="20" maxlength="64" /&gt;
+  &lt;br /&gt;
+  Password:
+  &lt;input type="password" name="pass" value="" size="20" maxlength="64" /&gt;
+  &lt;br /&gt;
+  Text:
+  &lt;textarea name="inputtext" cols="30" rows="3"&gt;
+Please enter your message&lt;/textarea&gt;
+&lt;/form&gt;
+    </code></pre>
+    <form action="http://httpbin.org/get" method="get">
+      Search:
+      <input type="text" name="txtSearch" value="" size="20" maxlength="64" />
+      <br />
+      Password:
+      <input type="password" name="pass" value="" size="20" maxlength="64" />
+      <br />
+      Text:
+      <textarea name="inputtext" cols="30" rows="3">
+Please enter your message</textarea
+      >
+      <button type="submit">Submit</button>
+    </form>
+  </section>
+  <section>
+    <ul>
+      <li>
+        <code class="hl-yellow">type</code>=<strong class="hl-green"
+          >"checkbox"</strong
+        >
+      </li>
+      <li>
+        If checked, its
+        <span class="hl-orange">name</span>=<span class="hl-green">value</span>
+        is sent to server
+      </li>
+      <ul>
+        <li>User cannot change/enter value</li>
+        <ul>
+          <li>
+            The <span class="hl-yellow">value</span> attribute is needed in some
+            cases
+          </li>
+          <li>If not given, it is assumed <span class="hl-red">“on”</span></li>
+        </ul>
+      </ul>
+      <li>To be checked by default</li>
+      <ul>
+        <li>
+          <code class="hl-yellow">checked</code>=<strong class="hl-green"
+            >"checked"</strong
+          >
+        </li>
+      </ul>
+      <li>To draw border around a group of components</li>
+      <ul>
+        <li>
+          <code class="hl-orange">&lt;fieldset&gt; &lt;/fieldset&gt;</code>
+        </li>
+      </ul>
+      <li>To assign name to the group</li>
+      <ul>
+        <li><code class="hl-orange">&lt;legend&gt; &lt;/legend&gt;</code></li>
+      </ul>
+    </ul>
+  </section>
+  <section>
+    <form action="http://httpbin.org/get" method="get">
+      <fieldset>
+        <legend><em>Web Development Skills</em></legend>
+        <input type="checkbox" name="skill_1" value="html" />
+        HTML<br />
+        <input type="checkbox" name="skill_2" value="xhtml" checked="checked" />
+        XHTML<br />
+        <input type="checkbox" name="skill_3" value="css" /> CSS<br />
+        <input type="checkbox" name="skill_4" value="JavaScript" />
+        JavaScript<br />
+        <input type="checkbox" name="skill_5" value="aspnet" />ASP.Net<br />
+        <input type="checkbox" name="skill_6" />
+        PHP <br />
+        <input type="submit" value="Submit" />
+      </fieldset>
+    </form>
+  </section>
+  <section>
+    <pre><code class="lang-html">
+&lt;form action="http://httpbin.org/get" method="get"&gt;
+  &lt;fieldset&gt;
+    &lt;legend&gt;&lt;em&gt;Web Development Skills&lt;/em&gt;&lt;/legend&gt;
+    &lt;input type="checkbox" name="skill_1" value="html" /&gt;
+    HTML&lt;br /&gt;
+    &lt;input type="checkbox" name="skill_2" value="xhtml" checked="checked" /&gt;
+    XHTML&lt;br /&gt;
+    &lt;input type="checkbox" name="skill_3" value="css" /&gt; CSS&lt;br /&gt;
+    &lt;input type="checkbox" name="skill_4" value="JavaScript" /&gt;
+    JavaScript&lt;br /&gt;
+    &lt;input type="checkbox" name="skill_5" value="aspnet" /&gt;ASP.Net&lt;br /&gt;
+    &lt;input type="checkbox" name="skill_6" /&gt;
+    PHP &lt;br /&gt;
+    &lt;input type="submit" value="Submit" /&gt;
+  &lt;/fieldset&gt;
+&lt;/form&gt;
+    </code></pre>
+  </section>
+  <section>
+    <ul>
+      <li>
+        <code class="hl-yellow">type</code>=<strong class="hl-green"
+          >"radio"</strong
+        >
+      </li>
+      <li>
+        Only one of button can be selected in a group of buttons with the same
+        <span class="hl-yellow">name</span>
+      </li>
+      <li>
+        <span class="hl-orange">name</span>=<span class="hl-green">value</span>
+        of the selected button will sent
+      </li>
+      <li>Again, user cannot change/enter the value</li>
+      <li>
+        If the value attribute is missing, the default value is
+        <span class="hl-red">“on”</span>
+      </li>
+      <li>The value attribute is (almost always) needed</li>
+      <li>The name is the same for all choices</li>
+    </ul>
+  </section>
+  <section>
+    <form action="http://httpbin.org/get" method="get">
+      <fieldset>
+        <legend>University Grade</legend>
+        <input type="radio" name="grade" value="B" /> BS <br />
+        <input type="radio" name="grade" value="M" /> MS <br />
+        <input type="radio" name="grade" value="P" /> PhD <br />
+        <input type="radio" name="grade" value="PD" /> Post Doc <br />
+        <input type="submit" value="Submit" />
+      </fieldset>
+    </form>
+  </section>
+  <section>
+    <pre><code class="lang-html">
+&lt;form action="http://httpbin.org/get" method="get"&gt;
+  &lt;fieldset&gt;
+    &lt;legend&gt;University Grade&lt;/legend&gt;
+    &lt;input type="radio" name="grade" value="B" /&gt; BS &lt;br /&gt;
+    &lt;input type="radio" name="grade" value="M" /&gt; MS &lt;br /&gt;
+    &lt;input type="radio" name="grade" value="P" /&gt; PhD &lt;br /&gt;
+    &lt;input type="radio" name="grade" value="PD" /&gt; Post Doc &lt;br /&gt;
+    &lt;input type="submit" value="Submit" /&gt;
+  &lt;/fieldset&gt;
+&lt;/form&gt;
+    </code></pre>
+  </section>
+  <section>
+    <ul>
+      <li>Select Boxes has the same functionality of radio buttons</li>
+      <li>Created by:</li>
+      <ul>
+        <li>
+          <code class="hl-cyan"
+            >&lt;select name="selname"&gt;&lt;/select&gt;</code
+          >
+        </li>
+        <li>
+          Options are given by
+          <code class="hl-yellow"
+            >&lt;option value="val"&gt; text &lt;/option&gt;</code
+          >
+        </li>
+      </ul>
+      <li>
+        <span class="hl-orange">slename</span>=<span class="hl-green">val</span>
+        of the selected item is sent to server
+      </li>
+      <li>User cannot enter value</li>
+      <li>
+        If <code class="hl-yellow">value</code>
+        attribute is omitted, the value is taken from the text content of the
+        <code class="hl-orange">option</code> element.
+      </li>
+    </ul>
+  </section>
+  <section>
+    <form action="http://httpbin.org/get" method="get">
+      Select color:
+      <select name="selColor">
+        <option value="r">Red</option>
+        <option value="g">Green</option>
+        <option value="b">Blue</option>
+      </select>
+      <input type="submit" value="Submit" />
+    </form>
+  </section>
+  <section>
+    <pre><code class="lang-html">
+&lt;form action="http://httpbin.org/get" method="get"&gt;
+  Select color:
+  &lt;select name="selColor"&gt;
+    &lt;option value="r"&gt;Red&lt;/option&gt;
+    &lt;option value="g"&gt;Green&lt;/option&gt;
+    &lt;option value="b"&gt;Blue&lt;/option&gt;
+  &lt;/select&gt;
+  &lt;input type="submit" value="Submit" /&gt;
+&lt;/form&gt;
+    </code></pre>
+  </section>
+  <section>
+    <ul>
+      <li>File Input</li>
+      <li>In <code class="hl-orange">&lt;input&gt;</code></li>
+      <ul>
+        <li><code class="hl-yellow">type</code>="file"</li>
+        <li>
+          <code class="hl-yellow">accept</code>= A MIME type to specify default
+          acceptable file format
+        </li>
+      </ul>
+      <li>In <code class="hl-orange">&lt;form&gt;</code></li>
+      <ul>
+        <li><code class="hl-yellow">method</code>="post"</li>
+        <li><code class="hl-yellow">enctype</code>="multipart/form-data"</li>
+        <li>
+          The type that allows file
+          <code class="hl-orange">&lt;input&gt;</code> element(s) to upload file
+          data.
+        </li>
+      </ul>
+    </ul>
+  </section>
+  <section>
+    <form
+      action="http://httpbin.org/post"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      <input type="file" name="fileUpload" accept="image/*" />
+      <input type="submit" value="Submit" />
+    </form>
+  </section>
+  <section>
+    <pre><code class="lang-html">
+&lt;form
+  action="http://httpbin.org/post"
+  method="post"
+  enctype="multipart/form-data"
+&gt;
+  &lt;input type="file" name="fileUpload" accept="image/*" /&gt;
+  &lt;input type="submit" value="Submit" /&gt;
+&lt;/form&gt;
+    </code></pre>
+  </section>
+  <section>
+    <ul>
+      <li>Buttons: &lt;button&gt; label &lt;/button&gt;</li>
+      <ul>
+        <li>
+          <code class="hl-yellow">type</code> The default behavior of the
+          button. Possible values are:
+        </li>
+        <ul>
+          <li>
+            <code class="hl-green">"submit"</code>: To submit data to server.
+          </li>
+          <li>
+            <code class="hl-green">"reset"</code>: To reset all inputs to
+            default values.
+          </li>
+          <li>
+            <code class="hl-green">"button"</code>: To run client side script.
+          </li>
+        </ul>
+      </ul>
+      <li>
+        The <code class="hl-yellow">name</code> of the button, submitted as a
+        pair with the button’s value as part of the form data.
+      </li>
+      <li>
+        Defines the <code class="hl-yellow">value</code> associated with the
+        button’s name when it’s submitted with the form data.
+      </li>
+    </ul>
+  </section>
+  <section>
+    <form action="http://httpbin.org/get" method="get">
+      <input type="text" name="input" value="Default Value" /> <br />
+      <button type="submit">Submit Me</button><br />
+      <button type="reset">Reset</button> <br />
+      <button type="button">Click Me</button> <br />
+    </form>
+  </section>
+  <section>
+    <pre><code class="lang-html">
+&lt;form action="http://httpbin.org/get" method="get"&gt;
+  &lt;input type="text" name="input" value="Default Value" /&gt; &lt;br /&gt;
+  &lt;button type="submit"&gt;Submit Me&lt;/button&gt;&lt;br /&gt;
+  &lt;button type="reset"&gt;Reset&lt;/button&gt; &lt;br /&gt;
+  &lt;button type="button"&gt;Click Me&lt;/button&gt; &lt;br /&gt;
+&lt;/form&gt;
+    </code></pre>
+  </section>
+</section>
+<section>
+  <h2>tabindex</h2>
+  <ul>
+    <li>
+      The <em class="hl-green">tabindex</em>
+      <strong class="hl-orange">global attribute</strong> indicates that its
+      element can be focused, and where it participates in sequential keyboard
+      navigation (usually with the <code class="hl-yellow">Tab</code> key, hence
+      the name).
+    </li>
+  </ul>
+</section>
+<section>
+  <div class="toc" data-selected="3"></div>
+</section>
+<section>
+  <h2>Document metadata</h2>
+  <ul>
+    <li>Metadata contains information about the page.</li>
+    <li>
+      This includes information about styles, scripts and data to help software
+      (<span class="hl-orange">search engines</span>,
+      <span class="hl-green">browsers</span>, etc.) use and render the page.
+    </li>
+    <li>
+      Metadata for styles and scripts may be defined in the page or link to
+      another file that has the information.
+    </li>
+  </ul>
+</section>
+<section>
+  <ul>
+    <li>
+      The HTML Title element (<code class="hl-orange">&lt;title&gt;</code>)
+      defines the document's title that is shown in a browser's title bar or a
+      page's tab.
+    </li>
+    <li>
+      The HTML <code class="hl-orange">&lt;style&gt;</code> element contains
+      style information for a document, or part of a document.
+    </li>
+    <li>
+      The HTML <code class="hl-orange">&lt;base&gt;</code> element specifies the
+      base URL to use for all relative URLs in a document.
+    </li>
+  </ul>
+</section>
+<section>
+  <section>
+    <ul>
+      <li>
+        The HTML <code class="hl-orange">&lt;meta&gt;</code> element represents
+        metadata that cannot be represented by other HTML meta-related elements
+      </li>
+    </ul>
+  </section>
+  <section>
+    <ul>
+      <ul>
+        <li>
+          If the <span class="hl-green">name</span> attribute is set, the
+          <span class="hl-cyan">meta</span> element provides document-level
+          metadata, applying to the whole page.
+        </li>
+        <ul>
+          <li>
+            <code class="hl-orange">author</code>: the name of the document's
+            author.
+          </li>
+          <li>
+            <code class="hl-violet">description</code>: a short and accurate
+            summary of the content of the page. Several browsers, like Firefox
+            and Opera, use this as the default description of bookmarked pages.
+          </li>
+          <li>
+            <code class="hl-yellow">generator</code>: the identifier of the
+            software that generated the page.
+          </li>
+          <li>
+            <code class="hl-red">keywords</code>: words relevant to the page's
+            content separated by commas.
+          </li>
+        </ul>
+        <pre><code class="lang-html">
+&lt;meta name="description" content="Free Web tutorials"&gt;
+&lt;meta name="keywords" content="HTML, CSS, JavaScript"&gt;
+&lt;meta name="author" content="John Doe"&gt;
+        </code></pre>
+      </ul>
+    </ul>
+  </section>
+  <section>
+    <ul>
+      <ul>
+        <li>
+          If the <span class="hl-green">http-equiv</span> attribute is set, the
+          <span class="hl-cyan">meta</span> element is a pragma directive,
+          providing information equivalent to what can be given by a
+          similarly-named HTTP header.
+        </li>
+        <ul>
+          <li>
+            Usually is <span class="hl-red">not</span> processed by web-server
+          </li>
+          <li>Browser simulates the behavior of the effect of the header</li>
+        </ul>
+        <pre><code class="lang-html">
+&lt;!-- The number of seconds until the page should redirect to another  --&gt;
+&lt;meta http-equiv="refresh" content="3;url=https://www.mozilla.org"&gt;
+        </code></pre>
+      </ul>
+    </ul>
+  </section>
+  <section>
+    <ul>
+      <ul>
+        <li>
+          If the <span class="hl-green">charset</span> attribute is set, the
+          <span class="hl-cyan">meta</span> element is a charset declaration,
+          giving the character encoding in which the document is encoded.
+        </li>
+        <pre><code class="lang-html">
+&lt;meta charset="UTF-8"&gt;
+        </code></pre>
+        <li>
+          If the <span class="hl-green">itemprop</span> attribute is set, the
+          <span class="hl-cyan">meta</span> element provides user-defined
+          metadata.
+        </li>
+        <pre><code class="lang-html">
+&lt;meta itemprop="description" content="my description"&gt;
+        </code></pre>
+      </ul>
+    </ul>
+  </section>
+</section>
+<section>
+  <ul>
+    <li>
+      The HTML External Resource Link element (<code class="hl-orange"
+        >&lt;link&gt;</code
+      >) specifies relationships between the current document and an external
+      resource. This element is most commonly used to link to
+      <span class="hl-green">stylesheets</span>, but is also used to establish
+      <span class="hl-cyan">site icons</span> (both "favicon" style icons and
+      icons for the home screen and apps on mobile devices) among other things.
+    </li>
+  </ul>
+</section>
+<section>
+  <div class="toc" data-selected="4"></div>
+</section>
+<section>
+  <h2>HTML Remarks</h2>
+  <ul>
+    <li>HTML is open source</li>
+    <ul>
+      <li>We can find how others do amazing things in web</li>
+      <li>Learning by reading the others' codes</li>
+      <ul>
+        <li>Copy/Paste is strictly prohibited (copyright)</li>
+      </ul>
+    </ul>
+    <li>HTML is not a programming language</li>
+    <ul>
+      <li>No compiler or interpreter</li>
+      <ul>
+        <li>So, what happen if there is an error?</li>
+        <ul>
+          <li>Depends on browser</li>
+          <li>Developer should check with multiple browsers</li>
+        </ul>
+      </ul>
+    </ul>
+  </ul>
+</section>
+<section>
+  <h2>HTML Development Toolbox</h2>
+  <ul>
+    <li>
+      <a href="http://en.wikipedia.org/wiki/List_of_HTML_editors">
+        A HTML editor
+      </a>
+    </li>
+    <ul>
+      <li>A simple text editor</li>
+      <ul>
+        <li><a href="https://neovim.io/">Neovim</a> with Apache License</li>
+        <li><a href="https://www.vim.org/">Vim</a> is Charityware</li>
+        <li><a href="https://atom.io/">Atom</a> with MIT License</li>
+        <li>
+          <a href="https://code.visualstudio.com/">VSCode</a> with MIT License
+        </li>
+        <li>...</li>
+      </ul>
+      <li>
+        HTML source code editor (syntax highlight, etc)
+        <ul>
+          <li><a href="https://www.jetbrains.com/webstorm/">WebStorm</a> 💰</li>
+        </ul>
+      </li>
+      <li>
+        WYSIWYG editors (you have not work with tags) E.g. MS. FrontPage, Word
+        (export to HTML), …
+      </li>
+    </ul>
+  </ul>
+</section>
+<section>
+  <ul>
+    <li>A rendering software</li>
+    <ul>
+      <li>Common browsers Try different browsers</li>
+    </ul>
+    <li>Additional debugging tools</li>
+    <li>HTML Debugging</li>
+    <ul>
+      <li>Browser reads HTML document</li>
+      <ul>
+        <li>Parses its tree</li>
+        <li>Document Object Model (DOM) tree</li>
+        <ul>
+          <li>Shows how browser interprets your HTML file</li>
+        </ul>
+      </ul>
+      <li>Google Chrome <strong>Inspect Element</strong></li>
+      <li>Firefox Developer Edition</li>
+    </ul>
+  </ul>
+</section>
+<section>
+  <h2>References 📚</h2>
+  <ul>
+    <li>
+      <a href="http://ceit.aut.ac.ir/~bakhshis/">Prof. Bahador Bakhshi</a>'s
+      Internet Eng. Course's Slides
+    </li>
+  </ul>
+</section>
+
+      </div>
+    </div>
+
+    <script src="/IE-lecture/slides/lib/js/head.min.js"></script>
+    <script src="/IE-lecture/slides/js/reveal.js"></script>
+
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        history: true,
+        slideNumber: true,
+
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+          { src: '/IE-lecture/slides/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          {
+            src: '/IE-lecture/slides/plugin/toc.js',
+            async: true,
+            condition: function() {
+              if (typeof toc !== undefined) {
+                return true;
+              } else {
+                return false;
+              }
+            },
+            callback: function() { toc.initToCOnLoad([
+              
+                "Introduction",
+              
+                "HTML",
+              
+                "Body",
+              
+                "Head",
+              
+                "HTML in Practice",
+              
+            ]); }
+          }
+        ]
+      });
+    </script>
+    <!-- logos and advertising -->
+    <a href="https://github.com/sbu-ce/ie-lecture" target="_blank">
+      <img style="position: absolute; top: 0; right: 0; border: 0;" src="/IE-lecture/img/forkme_right_orange.png" alt="Fork me on GitHub">
+    </a>
+  </body>
+</html>

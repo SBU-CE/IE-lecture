@@ -1,0 +1,569 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="https://github.com/sbu-ce.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Introduction</title>
+
+    <link rel="stylesheet" href="/IE-lecture/slides/css/reveal.css">
+    <link rel="stylesheet" href="/IE-lecture/slides/css/theme/league.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="/IE-lecture/slides/lib/css/agate.css">
+
+    <!-- Parham theme! -->
+    <link rel="stylesheet" href="/IE-lecture/slides/css/theme.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? '/IE-lecture/slides/css/print/pdf.css' : '/IE-lecture/slides/css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        
+        <section>
+          <h1 style="color: #ffea00;">Introduction</h1>
+          <h5>Internet Engineering</h5>
+          <span class="cyan-select">Spring 2021</span><br>
+          <a style="color: #ff9900;" href="https://1995parham.me">@1995parham</a>
+        </section>
+        
+        <section>
+  <section>
+    <h2>Parham Alvani</h2>
+    <p><a href="https://1995parham.github.io/">1995parham.github.io</a></p>
+    <img
+      src="img/1995parham-logo.png"
+      alt="1995parham-logo"
+      width="500"
+      style="background-color: white"
+    />
+  </section>
+  <section>
+    <h2></h2>
+    <h2>
+      <span class="hl-green">Parham</span>
+      <span class="hl-orange">[dot]</span>
+      <span class="hl-green">Alvani</span>
+      <span class="hl-orange">[at]</span>
+      <span class="hl-cyan">tutanota</span>
+      <span class="hl-orange">[dot]</span>
+      <span class="hl-cyan">com</span>
+    </h2>
+  </section>
+  <section>
+    <h3>No instant messaging</h3>
+    <h2><span class="hl-orange">Email</span> is awesome</h2>
+    <img height="150px" src="img/bernard.gif" />
+  </section>
+</section>
+<section>
+  <h2>This Course</h2>
+  <ul>
+    <li>
+      <span class="hl-orange">Web</span>: the major Internet technology-in-use
+    </li>
+    <ul>
+      <li>What are/were the problems?</li>
+      <li>How do/did we solve them?</li>
+      <ul>
+        <li>Which protocols and languages are used</li>
+      </ul>
+    </ul>
+    <li>Engineer approach</li>
+    <ul>
+      <li>Understand existing concepts &amp; technologies</li>
+      <ul>
+        <li>In class</li>
+      </ul>
+      <li>Try examples &amp; sample projects</li>
+      <ul>
+        <li>By youself</li>
+      </ul>
+    </ul>
+  </ul>
+</section>
+<section>
+  <h2>The World-Wide Web</h2>
+  <ul>
+    <li>Original idea (Tim Berners-Lee, 1989)</li>
+    <ul>
+      <li>Public information sharing on Internet</li>
+      <li>Hypertext</li>
+      <ul>
+        <li>
+          Documents are text which can be displayed/converted to desired output
+        </li>
+        <li>Documents can be linked to each others: Web!</li>
+      </ul>
+    </ul>
+    <li>WWW: A system of interlinked hypertext</li>
+    <ul>
+      <li>Now, much more complex/interesting applications</li>
+    </ul>
+  </ul>
+</section>
+<section>
+  <h2>How Does WWW Work?</h2>
+  <ul>
+    <li>Client-Server mechanism</li>
+    <li>Web servers: Process client’s requests</li>
+    <ul>
+      <li>File (text, image, video, ...) retrieval requests</li>
+      <li>Computation/Processing (DB lookup, transaction, ...) requests</li>
+    </ul>
+    <li>Web clients: Send the requests</li>
+    <ul>
+      <li>
+        Browser: Interacts with client, Requests for server, Processes and
+        displays response (rendering)
+      </li>
+      <li>Other applications</li>
+      <ul>
+        <li>Search engines crawlers</li>
+        <li>Use server as a processing element (distributed computing)</li>
+        <li>...</li>
+      </ul>
+    </ul>
+  </ul>
+</section>
+<section>
+  <h2>What Do We Want to Learn?</h2>
+  <ul>
+    <li>How does <span class="hl-orange">Gmail</span> work?</li>
+    <li>Login (keep me signed in)</li>
+    <li>Show emails</li>
+    <li>Read/Delete emails</li>
+    <li>Refresh the list of emails</li>
+    <li>Interactive menus</li>
+    <li>Per user customizations (themes)</li>
+    <li>...</li>
+  </ul>
+</section>
+<section>
+  <h2>10 Engineering Questions</h2>
+  <ul>
+    <li>
+      <span class="hl-orange">Q1)</span> How do web server and client browser
+      talk to each other?
+    </li>
+    <li>
+      <span class="hl-green">Q2)</span> How is a web page organized
+      (components)?
+    </li>
+    <li>
+      <span class="hl-cyan">Q3)</span> How is presentation of web page
+      described?
+    </li>
+    <li>
+      <span class="hl-yellow">Q4)</span> How does web page interact with users?
+    </li>
+    <li>
+      <span class="hl-red">Q5)</span> How to update a portion of web page?
+    </li>
+    <li>
+      <span class="hl-orange">Q6)</span> How is transferred data between server
+      &amp; client encoded?
+    </li>
+    <li>
+      <span class="hl-green">Q7)</span> How does server process client’s
+      requests?
+    </li>
+    <li>
+      <span class="hl-cyan">Q8)</span> How are complex/big web applications
+      developed?
+    </li>
+    <li><span class="hl-yellow">Q9)</span> How does Gmail offline work?</li>
+    <li>
+      <span class="hl-red">Q10)</span> How can other applications use Gmail?
+    </li>
+  </ul>
+</section>
+<section>
+  <h2>WWW: From Old to Now</h2>
+  <ul>
+    <li><span class="hl-red">Static</span> Web Pages</li>
+    <li>Client requests a document from server</li>
+    <ul>
+      <li>A communication protocol: <span class="hl-orange">HTTP</span></li>
+    </ul>
+    <li>How to display the document in browser?</li>
+    <ul>
+      <li>
+        Document structure definition language:
+        <span class="hl-green">HTML</span>
+      </li>
+      <li>Representation of document: <span class="hl-cyan">CSS</span></li>
+      <li>
+        Later, very later, some advance features:
+        <span class="hl-yellow">HTML5</span>
+      </li>
+    </ul>
+  </ul>
+  <iframe src="http://example.com/"></iframe>
+</section>
+<section>
+  <h2>WWW: From Old to Now</h2>
+  <ul>
+    <li>
+      <span class="hl-red">Interactive</span> and
+      <span class="hl-red">Dynamic</span> web page
+    </li>
+    <li>Needs to interact with user (e.g., event handling in web pages)</li>
+    <ul>
+      <li>
+        A programming language in browser:
+        <span class="hl-orange">JavaScript</span>
+      </li>
+    </ul>
+    <li>Dynamic data from server (e.g., search result)</li>
+    <ul>
+      <li>
+        A programming language in server: <span class="hl-green">Go</span>
+      </li>
+    </ul>
+    <li>Interactive &amp; Dynamic web page</li>
+    <ul>
+      <li>
+        A communication mechanism between web page and server:
+        <span class="hl-orange">JavaScript</span> &amp;
+        <span class="hl-cyan">JSON</span>
+      </li>
+    </ul>
+  </ul>
+  <div>
+    <script>
+      function locate(el) {
+        let r = Math.random() * 300;
+
+        el.style.margin = `${r}px 0 0 ${r}px`;
+      }
+    </script>
+    <div
+      style="
+        border-color: white;
+        border-width: 2px;
+        border-style: solid;
+        width: 300px;
+        height: 300px;
+      "
+    >
+      <button onclick="locate(this)">X</button>
+    </div>
+  </div>
+</section>
+<section>
+  <h2>WWW: From Old to Now</h2>
+  <ul>
+    <li>Complex processing in server side</li>
+    <ul>
+      <li>So many common requirements</li>
+      <ul>
+        <li>Threading, Concurrency, Security, etc.</li>
+      </ul>
+      <li>Needs an application development framework</li>
+      <ul>
+        <li><span class="hl-orange">Web Applications Architectures</span></li>
+      </ul>
+    </ul>
+    <li>Distributed computing over web</li>
+    <ul>
+      <li>Machine-to-Machine communication</li>
+      <ul>
+        <li><span class="hl-yellow">Function invocation over web</span></li>
+      </ul>
+      <li>Needs a common protocols/API (e.g., Facebook API)</li>
+      <ul>
+        <li><span class="hl-green">Web services</span></li>
+      </ul>
+    </ul>
+  </ul>
+  <pre><code class="lang-json" id="swapi-result">Waiting...</code></pre>
+  <script>
+    fetch("https://swapi.dev/api/people/1/")
+      .then((resp) => resp.json())
+      .then(
+        (data) =>
+          (document.getElementById("swapi-result").textContent =
+            JSON.stringify(data))
+      );
+  </script>
+</section>
+<section>
+  <h2>What we are going to learn at classes</h2>
+  <ul>
+    <li class="fragment fade-up" data-fragment-index="0">Introduction</li>
+    <li class="fragment fade-left" data-fragment-index="1">HTTP</li>
+    <li class="fragment fade-right" data-fragment-index="2">HTML</li>
+    <li class="fragment fade-down" data-fragment-index="3">CSS</li>
+    <li class="fragment fade-left" data-fragment-index="4">JavaScript</li>
+    <li class="fragment fade-up" data-fragment-index="5">JSON</li>
+    <li class="fragment fade-down" data-fragment-index="6">Golang</li>
+    <li class="fragment fade-left" data-fragment-index="7">Web Applications</li>
+    <li class="fragment fade-right" data-fragment-index="8">Virtualization</li>
+    <!-- <li class="fragment fade-right" data-fragment-index="9">React</li> -->
+  </ul>
+</section>
+<section>
+  <h2>What we are going to learn at TA's classes</h2>
+  <ul>
+    <li class="fragment fade-up" data-fragment-index="0">Git</li>
+    <li class="fragment fade-left" data-fragment-index="1">HTTP Client</li>
+    <li class="fragment fade-right" data-fragment-index="2">HTML/CSS</li>
+    <li class="fragment fade-down" data-fragment-index="3">JavaScript/React</li>
+    <li class="fragment fade-left" data-fragment-index="4">
+      Backend Development
+    </li>
+    <li class="fragment fade-right" data-fragment-index="5">Docker</li>
+  </ul>
+</section>
+<section>
+  <h2>What This Course Is Not</h2>
+  <ul>
+    <li>XYZ programming language course for web</li>
+    <ul>
+      <li>Many technologies for web development</li>
+      <ul>
+        <li>HTML, CSS, XML, etc.</li>
+        <li>Many programming languages: PHP, JS, Golang, etc.</li>
+      </ul>
+      <li>You are already programmer</li>
+      <ul>
+        <li>You know most programming concepts</li>
+        <li>You need to learn new syntax &amp; new features</li>
+      </ul>
+    </ul>
+    <li>In depth &amp; in detail technology review</li>
+    <ul>
+      <li>There are so many technologies</li>
+    </ul>
+  </ul>
+</section>
+<section>
+  <h2>Course Advantages</h2>
+  <ul>
+    <li>
+      We study and understand technologies that are used in real life every day
+    </li>
+    <ul>
+      <li>We don’t discuss about pure scientific problems</li>
+    </ul>
+    <li>An engineering course</li>
+    <ul>
+      <li>These technologies are used in industry</li>
+      <li>Better resume: HTML, JavaScript, JSON, CSS, Golang, React, ...</li>
+      <li>More job opportunities (more money 🤑)</li>
+    </ul>
+    <li>(Usually) Technologies are easier that sciences</li>
+    <ul>
+      <li>No difficult concepts</li>
+      <li>High course grade if you want 🤓</li>
+    </ul>
+  </ul>
+</section>
+<section>
+  <h2>Course Possible Disadvantages</h2>
+  <ul>
+    <li>We study technologies</li>
+    <ul>
+      <li>Technologies have limited life time</li>
+      <li>Our knowledge will expire</li>
+      <ul>
+        <li>
+          Some programming languages &amp; technologies may not be used 10 years
+          later
+        </li>
+      </ul>
+      <li>
+        However, most discussed technologies in this course (hopefully) will
+        have very long life time
+      </li>
+    </ul>
+    <li>Web development needs many technologies</li>
+    <ul>
+      <li>We need to learn many things</li>
+    </ul>
+  </ul>
+</section>
+<section>
+  <h2>Assumptions on your knowledge &amp; skills</h2>
+  <ul>
+    <li>Basic networking concepts</li>
+    <ul>
+      <li>Protocol, Port, Header, ...</li>
+    </ul>
+    <li>Programming</li>
+    <ul>
+      <li>Java/C</li>
+    </ul>
+    <li>Database</li>
+    <ul>
+      <li>SQL</li>
+    </ul>
+    <li>Love to program</li>
+    <ul>
+      <li>At least, you don’t hate 🙈</li>
+    </ul>
+  </ul>
+</section>
+<section>
+  <h2>Course Policies</h2>
+  <ul>
+    <li>
+      We have no TAs and there is no grading by TAs (AUT University Policy)
+    </li>
+    <li><a href="https://sbu-ce.github.io/IE-lecture/">Course homepage</a></li>
+    <ul>
+      <li>Course slides, Announcements, Grades, etc.</li>
+    </ul>
+    <li>Grading</li>
+    <ul>
+      <li>Midterm + Final</li>
+    </ul>
+  </ul>
+</section>
+<section>
+  <h2>Course Policies: Grading 😥</h2>
+  <table>
+    <tr>
+      <th></th>
+      <th></th>
+      <!--<th><span class="hl-red">Minimum requirement</span></th>-->
+    </tr>
+    <tr>
+      <td>Midterm</td>
+      <td>40%</td>
+      <!--<td><span class="hl-red">&gt; 40%</span></td>-->
+    </tr>
+    <tr>
+      <td>Final</td>
+      <td>40%</td>
+      <!--<td><span class="hl-red">&gt; 40%</span></td>-->
+    </tr>
+    <tr>
+      <td>Quiz</td>
+      <td>20%</td>
+      <!--<td><span class="hl-red"></span></td>-->
+    </tr>
+    <!--
+    <tr>
+      <td>Homework</td>
+      <td>40%</td>
+      <td><span class="hl-red">- Deadlines wont be extended</span></td>
+    </tr>
+    -->
+  </table>
+</section>
+<section>
+  <h2>Course Policies: Grading 😊</h2>
+  <ul>
+    <!--
+    <li>Extra points</li>
+    <ul>
+      <li>So many: presence, HWs, exams</li>
+      <li>
+        <span class="hl-orange">Limited grade:</span> you cannot compensate the
+        compulsory parts by extra grades
+      </li>
+    </ul>
+    <li>Not equal weight for all HW</li>
+    <li>2-person teams for the <strong>final</strong> project</li>
+    <li>HW will be given as soon as possible</li>
+    <ul>
+      <li>you will have ~3-4 weeks to do</li>
+    </ul>
+    <li>Grading algorithm to maximize your grade</li>
+    -->
+  </ul>
+</section>
+<section>
+  <h2>Course Policies (Cont.)</h2>
+  <ul>
+    <li>If this course is an optional course for you</li>
+    <ul>
+      <li>Please don’t take it if</li>
+      <ul>
+        <li>Your programming skill is poor</li>
+        <li>You assume that it is passed without doing anything</li>
+        <li>You know the answers of almost the questions</li>
+        <ul>
+          <li>But you are so busy to do homework</li>
+        </ul>
+      </ul>
+      <li>You need to allocate enough time for top grades</li>
+    </ul>
+    <li>If this course is mandatory</li>
+    <ul>
+      <li>Note that course topics is a bit wide</li>
+    </ul>
+  </ul>
+</section>
+<section>
+  <h2>Web Development: Lectures</h2>
+  <img src="./img/peykan.png" height="250px" alt="pekkan" />
+  <img src="./img/pride.png" height="250px" alt="pride" />
+</section>
+<section>
+  <h2>Web Development: Homework</h2>
+  <img src="./img/megan.png" height="250px" alt="megan" />
+  <img src="./img/206.png" height="250px" alt="206" />
+</section>
+<section>
+  <h2>Web Development: Industry</h2>
+  <img src="./img/benz.png" height="250px" alt="benz" />
+</section>
+<section>
+  <h2>Web Development: Google, Facebook, ...</h2>
+  <img src="./img/airplane.png" height="250px" alt="airplane" />
+</section>
+<section>
+  <h2>The main goal of the course</h2>
+  <h3>Learn and Enjoy Web Development</h3>
+</section>
+
+      </div>
+    </div>
+
+    <script src="/IE-lecture/slides/lib/js/head.min.js"></script>
+    <script src="/IE-lecture/slides/js/reveal.js"></script>
+
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        history: true,
+        slideNumber: true,
+
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+          { src: '/IE-lecture/slides/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          {
+            src: '/IE-lecture/slides/plugin/toc.js',
+            async: true,
+            condition: function() {
+              if (typeof toc !== undefined) {
+                return true;
+              } else {
+                return false;
+              }
+            },
+            callback: function() { toc.initToCOnLoad([
+              
+            ]); }
+          }
+        ]
+      });
+    </script>
+    <!-- logos and advertising -->
+    <a href="https://github.com/sbu-ce/ie-lecture" target="_blank">
+      <img style="position: absolute; top: 0; right: 0; border: 0;" src="/IE-lecture/img/forkme_right_orange.png" alt="Fork me on GitHub">
+    </a>
+  </body>
+</html>

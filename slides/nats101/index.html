@@ -1,0 +1,338 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="https://github.com/sbu-ce.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>NATS101</title>
+
+    <link rel="stylesheet" href="/IE-lecture/slides/css/reveal.css">
+    <link rel="stylesheet" href="/IE-lecture/slides/css/theme/league.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="/IE-lecture/slides/lib/css/agate.css">
+
+    <!-- Parham theme! -->
+    <link rel="stylesheet" href="/IE-lecture/slides/css/theme.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? '/IE-lecture/slides/css/print/pdf.css' : '/IE-lecture/slides/css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        
+        <section
+  data-background-image="img/background.jpg"
+  data-background-size="cover"
+  data-background-repeat="no-repeat"
+>
+  <div class="header">
+    <h2>Introduction to</h2>
+    <h1>NATS</h1>
+    <h3>Parham Alvani</h3>
+    <h5><a href="https://1995parham.github.io">@1995parham</a></h5>
+  </div>
+</section>
+<section>
+  <div class="toc"></div>
+</section>
+<section>
+  <div class="toc" data-selected="0"></div>
+</section>
+<section>
+  <h2>History</h2>
+  <ul>
+    <li>
+      NATS is a high-performance messaging system created by Derek Collison in
+      2010
+    </li>
+    <li>
+      It was originally built to serve as the message bus for Cloud Foundry
+    </li>
+    <li>Handling internal communication among components of the system</li>
+  </ul>
+</section>
+<section>
+  <h2>It Addresses</h2>
+  <ul>
+    <li>Service Discovery</li>
+    <li>Low latency communication</li>
+    <li>Load balancing</li>
+    <li>Notification and events handling</li>
+  </ul>
+</section>
+<section>
+  <h2>Overview</h2>
+  <ol>
+    <li>Client publishes message on <q>foo</q> subject</li>
+    <li>Only clients subscribed to <q>foo</q> receive the message</li>
+  </ol>
+  <img src="./img/overview.png" alt="overview" />
+</section>
+<section>
+  <h2>How Simple!</h2>
+  <pre><code class="plaintext">
+INFO {"server_id":"NCNS32OEKOMMHTBVUYC7QWASFAP3BPEKGZG3QDIYRCBUL23WE3OVVBBO","server_name":"NCNS32OEKOMMHTBVUYC7QWASFAP3BPEKGZG3QDIYRCBUL23WE3OVVBBO","version":"2.1.7","proto":1,"git_commit":"bf0930e","go":"go1.13.10","host":"0.0.0.0","port":4222,"max_payload":1048576,"client_id":1,"client_ip":"172.17.0.1"}
+
+SUB greetings 1
++OK
+
+PUB greetings 12
+Hello World!
++OK
+
+MSG greetings 1 12
+Hello World!
+  </code></pre>
+</section>
+<section>
+  <h2>Request/Response</h2>
+  <ol>
+    <li>
+      Client connected to NATS publishes a request on a <q>help</q> subject
+    </li>
+    <li>
+      Worker client subscribed to <q>help</q>, processes requests, then sends
+      response
+    </li>
+    <li>
+      Audit client is subscribed to all subjects via a wildcard, so also
+      receives message but does not reply
+    </li>
+    <li>Publisher receieves the response from the worker client</li>
+  </ol>
+  <img src="./img/rr.png" alt="rr" />
+</section>
+<section>
+  <h2>Queue</h2>
+  <ol>
+    <li>Publisher sends multiple help requests on a <q>help</q> subject</li>
+    <li>
+      Multiple worker clients subscribed to the <q>help</q> subject from a
+      distributed queue
+    </li>
+    <li>
+      Each published request is randomly balanced to only one of the worker
+      clients in the distributed queue
+    </li>
+  </ol>
+  <img src="./img/queues.png" alt="queues" />
+</section>
+<section>
+  <h2>NATS As an Always Available Dial Tone</h2>
+  <ul>
+    <li>
+      The main design constraints that define the style of the NATS project are:
+    </li>
+    <ul>
+      <li>Simplicity</li>
+      <li>Performance</li>
+      <li>Reliability</li>
+    </ul>
+    <li>
+      It does not offer any <span class="hl-orange">Persistence</span> or
+      <span class="hl-green">Buffering</span>
+    </li>
+    <li>
+      It is true <span class="hl-red">Fire</span> and
+      <span class="hl-cyan">Forget</span>
+    </li>
+  </ul>
+</section>
+<section>
+  <section>
+    <h2>Availability</h2>
+    <ul>
+      <li>
+        NATS will try to protect itself at all costs to be available for all
+        users
+      </li>
+      <li>
+        NATS client libraries, internally try to have an always established
+        connection to one of the available NATS servers
+      </li>
+      <li>
+        In case a server fails, NATS will reconnect to another available server
+        in the pool
+      </li>
+      <li>
+        NATS supports high-availablity via a clustering mode that is set up as a
+        <span class="hl-orange">full-mesh</span> of the servers
+      </li>
+    </ul>
+  </section>
+  <section>
+    <img src="./img/ha.png" alt="ha" />
+  </section>
+</section>
+<section>
+  <h2>Slow Consumer</h2>
+  <ul>
+    <li>
+      By default, if a client fails to drain the pending data that the server is
+      holding for the client for over two seconds, the server will disconnect
+      the client
+    </li>
+    <li>
+      Read more about it
+      <a
+        href="https://github.com/nats-io/nats-server/blob/c76dd8f67376bcf78ee09147e62242a29eccfa2e/server/client.go#L1270"
+        >here</a
+      >
+    </li>
+  </ul>
+  <img src="./img/sc.png" alt="sc" />
+</section>
+<section>
+  <h2>Ping/Pong</h2>
+  <ul>
+    <li>
+      There is a PING/PONG interval happing that the client has to follow
+      otherwise the server will reset the connection in case there are many PONG
+      replies missing.
+    </li>
+    <li>
+      Server sends PING messages to client in each interval and client has to
+      respond
+    </li>
+    <li>Client also can send PING messages to the server</li>
+  </ul>
+  <img src="./img/ping-pong.png" alt="ping-pong" />
+</section>
+<section>
+  <section>
+    <h2>Subject Names</h2>
+    <ul>
+      <li>The dot character (.) has special meaning as part of the subject</li>
+      <li>
+        When using it as part of the subject, we can create namespaces that can
+        be later matched via wildcards
+      </li>
+    </ul>
+    <table>
+      <thead>
+        <tr>
+          <th>Subject</th>
+          <th>Matches</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>foo.*.bar</td>
+          <td>foo.hello.bar ✅, foo.hi.bar ✅, foo.hello ✅</td>
+        </tr>
+        <tr>
+          <td>foo.*</td>
+          <td>foo.hello ✅, foo.hi.bar ❌</td>
+        </tr>
+        <tr>
+          <td>foo.&gt;</td>
+          <td>foo.hello.bar ✅, foo.hi.bar ✅, foo.hello ✅</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+  <section>
+    <ul>
+      <li><code>*</code>: partial or token match wildcard</li>
+      <li><code>&gt;</code>: full wildcard</li>
+    </ul>
+  </section>
+</section>
+<section>
+  <section class="hands-on">
+    <h2>Queue Subscribtions: Hands-on</h2>
+    <ul></ul>
+  </section>
+  <section>
+    <h2>Worker 1 👷</h2>
+    <pre><code class="plaintext">
+INFO {"server_id":"NARXYLU3XEZSFYCFRV5WJ63GQS5WDV3WC4WAKCYDYY2IBGIETWJADZVS","server_name":"NARXYLU3XEZSFYCFRV5WJ63GQS5WDV3WC4WAKCYDYY2IBGIETWJADZVS","version":"2.1.8","proto":1,"git_commit":"c0b574f","go":"go1.14.8","host":"0.0.0.0","port":4222,"max_payload":1048576,"client_id":4,"client_ip":"172.22.0.1"}
+SUB requests workers 5
++OK
+
+MSG requests 5 6
+second
+    </code></pre>
+  </section>
+  <section>
+    <h2>Worker 2 👷</h2>
+    <pre><code class="plaintext">
+INFO {"server_id":"NARXYLU3XEZSFYCFRV5WJ63GQS5WDV3WC4WAKCYDYY2IBGIETWJADZVS","server_name":"NARXYLU3XEZSFYCFRV5WJ63GQS5WDV3WC4WAKCYDYY2IBGIETWJADZVS","version":"2.1.8","proto":1,"git_commit":"c0b574f","go":"go1.14.8","host":"0.0.0.0","port":4222,"max_payload":1048576,"client_id":5,"client_ip":"172.22.0.1"}
+SUB requests workers 55
++OK
+
+MSG requests 55 5
+first
+    </code></pre>
+  </section>
+  <section>
+    <h2>Publisher ✍️</h2>
+    <pre><code class="plaintext">
+INFO {"server_id":"NARXYLU3XEZSFYCFRV5WJ63GQS5WDV3WC4WAKCYDYY2IBGIETWJADZVS","server_name":"NARXYLU3XEZSFYCFRV5WJ63GQS5WDV3WC4WAKCYDYY2IBGIETWJADZVS","version":"2.1.8","proto":1,"git_commit":"c0b574f","go":"go1.14.8","host":"0.0.0.0","port":4222,"max_payload":1048576,"client_id":6,"client_ip":"172.22.0.1"}
+
+PUB requests 5
+first
++OK
+
+PUB requests 6
+second
++OK
+    </code></pre>
+  </section>
+</section>
+<section>
+  <h2>References 📚</h2>
+  <ul>
+    <li>Practical NATS: From Beginner to Pro, Book by Waldemar Quevedo</li>
+  </ul>
+</section>
+
+      </div>
+    </div>
+
+    <script src="/IE-lecture/slides/lib/js/head.min.js"></script>
+    <script src="/IE-lecture/slides/js/reveal.js"></script>
+
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        history: true,
+        slideNumber: true,
+
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+          { src: '/IE-lecture/slides/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          {
+            src: '/IE-lecture/slides/plugin/toc.js',
+            async: true,
+            condition: function() {
+              if (typeof toc !== undefined) {
+                return true;
+              } else {
+                return false;
+              }
+            },
+            callback: function() { toc.initToCOnLoad([
+              
+                "Introduction",
+              
+            ]); }
+          }
+        ]
+      });
+    </script>
+    <!-- logos and advertising -->
+    <a href="https://github.com/sbu-ce/ie-lecture" target="_blank">
+      <img style="position: absolute; top: 0; right: 0; border: 0;" src="/IE-lecture/img/forkme_right_orange.png" alt="Fork me on GitHub">
+    </a>
+  </body>
+</html>

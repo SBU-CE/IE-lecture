@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="https://github.com/sbu-ce.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Introduction to WebAssembly</title>
+
+    <link rel="stylesheet" href="/IE-lecture/slides/css/reveal.css">
+    <link rel="stylesheet" href="/IE-lecture/slides/css/theme/league.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="/IE-lecture/slides/lib/css/agate.css">
+
+    <!-- Parham theme! -->
+    <link rel="stylesheet" href="/IE-lecture/slides/css/theme.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? '/IE-lecture/slides/css/print/pdf.css' : '/IE-lecture/slides/css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        
+        <section>
+  We, <a href="https://github.com/mohammadhashemii">Mohammad</a> and
+  <a href="https://github.com/NNargesNN">Narges</a> gave a presentation as
+  <i>Introduction to WebAssembly</i> in
+  <a href="https://sbu-ce.github.io/IE-lecture/">Internet Engineering course</a>
+  at Shahid Beheshti University.
+  <a href="slides.pdf">Here</a> you can find the slides and some code example of
+  this presentation for better intuition. Before using the codes, we highly
+  recommend to read the slides. Also you can watch the presentation video
+  <a>here</a>.
+</section>
+
+<section>
+  <h2>Tools</h2>
+
+  - For converting <code>.wat</code> file to <code>.wasm</code>, firstly install
+  <a href="https://github.com/WebAssembly/wabt">wabt</a>. Then run the commands
+  below in your terminal.(More detailed help can be found on wabt github page).
+</section>
+
+<section>
+  <h2>Insllation</h2>
+
+  To install it on your OS, follow the steps
+  <a href="https://github.com/WebAssembly/wabt#cloning">here</a> carefully.
+</section>
+
+<section>
+  <h2>Running wat2wasm</h2>
+
+  some examples:
+
+  <pre><code class="lang-shell">
+# parse and typecheck test.wat
+$ bin/wat2wasm test.wat
+
+# parse test.wat and write to binary file test.wasm
+$ bin/wat2wasm test.wat -o test.wasm
+
+# parse spec-test.wast, and write verbose output to stdout (including the
+# meaning of every byte)
+$ bin/wat2wasm spec-test.wast -v
+	</code></pre>
+</section>
+
+      </div>
+    </div>
+
+    <script src="/IE-lecture/slides/lib/js/head.min.js"></script>
+    <script src="/IE-lecture/slides/js/reveal.js"></script>
+
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        history: true,
+        slideNumber: true,
+
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+          { src: '/IE-lecture/slides/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          {
+            src: '/IE-lecture/slides/plugin/toc.js',
+            async: true,
+            condition: function() {
+              if (typeof toc !== undefined) {
+                return true;
+              } else {
+                return false;
+              }
+            },
+            callback: function() { toc.initToCOnLoad([
+              
+            ]); }
+          }
+        ]
+      });
+    </script>
+    <!-- logos and advertising -->
+    <a href="https://github.com/sbu-ce/ie-lecture" target="_blank">
+      <img style="position: absolute; top: 0; right: 0; border: 0;" src="/IE-lecture/img/forkme_right_orange.png" alt="Fork me on GitHub">
+    </a>
+  </body>
+</html>

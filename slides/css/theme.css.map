@@ -1,0 +1,12 @@
+{
+	"version": 3,
+	"file": "theme.css",
+	"sources": [
+		"theme.scss"
+	],
+	"sourcesContent": [
+		"$highlights: (\n        \"orange\": #ff9100,\n        \"green\": #76ff03,\n        \"cyan\": #00e5ff,\n        \"red\": #ff0000,\n        \"material\": #ff80ab,\n        \"violet\": #ee82ee,\n        \"yellow\": #ffcc00,\n);\n\n@each $name, $color in $highlights {\n        .hl-#{$name} {\n                color: $color;\n        }\n}\n\n.stackoverflow {\n        color: #f48024;\n}\n\nsection > h2:first-child {\n        color: #ff033e !important;\n}\n\ntable.cell td {\n        border: 5px solid #ccff00 !important;\n}\n\n.slide-background-content {\n        height: 100%;\n}\n\n.box {\n        border-radius: 5px;\n        background-color: #919096;\n        box-shadow: 5px 5px 5px 0;\n        margin-top: 20px !important;\n        margin-bottom: 20px !important;\n}\n\n.box header {\n        background-color: #656469;\n        border-radius: 5px 5px 0 0;\n        color: #DD8F33;\n}\n\n.box p {\n        font-style: italic;\n        padding-left: 20px;\n        padding-right: 20px;\n}\n\nsection.hands-on {\n        > ul:last-child::after {\n                content: url(\"../img/hands-on.gif\");\n        }\n}\n"
+	],
+	"names": [],
+	"mappings": "AAAA,AAWQ,UAXE,CAWK,EACC,KAAK,EAXH,OAAO,GAYhB;;AAbT,AAWQ,SAXC,CAWM,EACC,KAAK,EAVJ,OAAO,GAWf;;AAbT,AAWQ,QAXA,CAWO,EACC,KAAK,EATL,OAAO,GAUd;;AAbT,AAWQ,OAXD,CAWQ,EACC,KAAK,EARN,OAAO,GASb;;AAbT,AAWQ,YAXI,CAWG,EACC,KAAK,EAPD,OAAO,GAQlB;;AAbT,AAWQ,UAXE,CAWK,EACC,KAAK,EANH,OAAO,GAOhB;;AAbT,AAWQ,UAXE,CAWK,EACC,KAAK,EALH,OAAO,GAMhB;;AAGT,AAAA,cAAc,CAAC,EACP,KAAK,EAAE,OAAO,GACrB;;AAED,AAAA,OAAO,GAAG,EAAE,CAAC,WAAW,CAAC,EACjB,KAAK,EAAE,kBAAkB,GAChC;;AAED,AAAA,KAAK,AAAA,KAAK,CAAC,EAAE,CAAC,EACN,MAAM,EAAE,4BAA4B,GAC3C;;AAED,AAAA,yBAAyB,CAAC,EAClB,MAAM,EAAE,IAAI,GACnB;;AAED,AAAA,IAAI,CAAC,EACG,aAAa,EAAE,GAAG,EAClB,gBAAgB,EAAE,OAAO,EACzB,UAAU,EAAE,aAAa,EACzB,UAAU,EAAE,eAAe,EAC3B,aAAa,EAAE,eAAe,GACrC;;AAED,AAAA,IAAI,CAAC,MAAM,CAAC,EACJ,gBAAgB,EAAE,OAAO,EACzB,aAAa,EAAE,WAAW,EAC1B,KAAK,EAAE,OAAO,GACrB;;AAED,AAAA,IAAI,CAAC,CAAC,CAAC,EACC,UAAU,EAAE,MAAM,EAClB,YAAY,EAAE,IAAI,EAClB,aAAa,EAAE,IAAI,GAC1B;;AAED,AACQ,OADD,AAAA,SAAS,GACN,EAAE,CAAC,UAAU,EAAE,KAAK,CAAC,EACf,OAAO,EAAE,0BAA0B,GAC1C"
+}

@@ -1,0 +1,31 @@
+.hl-orange { color: #ff9100; }
+
+.hl-green { color: #76ff03; }
+
+.hl-cyan { color: #00e5ff; }
+
+.hl-red { color: #ff0000; }
+
+.hl-material { color: #ff80ab; }
+
+.hl-violet { color: #ee82ee; }
+
+.hl-yellow { color: #ffcc00; }
+
+.stackoverflow { color: #f48024; }
+
+section > h2:first-child { color: #ff033e !important; }
+
+table.cell td { border: 5px solid #ccff00 !important; }
+
+.slide-background-content { height: 100%; }
+
+.box { border-radius: 5px; background-color: #919096; box-shadow: 5px 5px 5px 0; margin-top: 20px !important; margin-bottom: 20px !important; }
+
+.box header { background-color: #656469; border-radius: 5px 5px 0 0; color: #DD8F33; }
+
+.box p { font-style: italic; padding-left: 20px; padding-right: 20px; }
+
+section.hands-on > ul:last-child::after { content: url("../img/hands-on.gif"); }
+
+/*# sourceMappingURL=theme.css.map */
